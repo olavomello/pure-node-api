@@ -6,9 +6,6 @@ var config = require('./libs/configs');
 var { echo } = require('./libs/helpers');
 var routes = require('./libs/routes');
 
-// Consts
-
-
 // Server
 const server = http.createServer( (req, res) => {
     try{
@@ -26,7 +23,6 @@ const server = http.createServer( (req, res) => {
             routes[path](req, res);
         } else {
             // Route not found
-            echo("Route not found ["+path+"]","error");
             res.writeHead(404);
             res.end();
         }

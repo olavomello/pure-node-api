@@ -73,35 +73,35 @@ helpers.uuid = function() {
 }
 
 // create file
-helpers.fileAdd = function( file, data, path, callback ){
-    if( !file && !data && !path ) {
+helpers.fileAdd = function( file, data, dir, callback ){
+    if( !file && !data && !dir ) {
         // Error
         callback("Error manipulating file. Parameters require empty.");
     } else {
         // Ok
-        const dir = path.join(__dirname,"/../." + path);
+        const fullDir = path.join(__dirname,"../.data/" + dir);
 
-        if( !path.existsSync(dir) ){
+        // Verify directory
+        if( !fs.existsSync(fullDir) ){
             // Path dont exist. Try to create 
             try{
                 // Path created
-                fs.mkdirSync(dir);
+                fs.mkdirSync(fullDir);
             } catch( err ){
                 // Error creating path
-                callback("Error creating path " + dir );
+                callback("Error creating path " + fullDir );
             }
-
-            // Create file
-            fs.writeFile( dir +"/"+ file, data, function(err) {
-                if(err) {
-                    // Error writing file
-                    callback("Error creating file " + err );
-                } else {
-                    // File writed
-                    callback(false);
-                }
-            }); 
         }
+        // Create file
+        fs.writeFile( fullDir +"/"+ file + ".json", JSON.stringify(data), function(err) {
+            if(err) {
+                // Error writing file
+                callback("Error creating file " + err );
+            } else {
+                // File writed
+                callback(false);
+            }
+        });         
     }
 }
 

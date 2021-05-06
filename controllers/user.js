@@ -28,29 +28,31 @@ controller.add = async ( req, res ) => {
     // Execute payload return >>>
 
     // Generate User uuid
-    var id = uuid();
-    console.log(id);
+    var token = uuid();
+
     // Request body
     var body = '';
     req.on('data', chunk => { body += chunk.toString(); });
-    console.log(body);
+    console.log("Body > ", body);
 
     // User container
-    var user = User;
+    var user      =   User;
+
+    // User data
+    user.token    =   token;
+    user.name     =   "";
+    user.email    =   "";
+    user.pass     =   "";
+    user.address  =   "";
 
     // Create file
-    fileAdd( file, data, "users", function( err ){
-      if( err ){
-        // Error creating file
-        res.writeHead( 404 );
-        res.end( JSON.stringify( { error   : true, message : "User file creation error." } ) );         
-      } else {
-        // File created
-        // Error creating file
-        res.writeHead( 200 );
-        res.end( JSON.stringify( { error   : false, message : "User created." } ) );         
-      }
+    fileAdd( token, user, "users", function( err ){
+      // Error creating file
+      if( err ) res.writeHead(404).end( JSON.stringify( { error   : true, message : "User file creation error." } ) );  
     });
+
+    // User created
+    res.writeHead(200).end( JSON.stringify( { error : false, message : "User created.", user : user } ) );     
   }
 };
 
