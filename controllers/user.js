@@ -22,7 +22,7 @@ controller.get = async ( req, res, arrPath ) => {
         res.end( JSON.stringify(user));
       } else {
         // User does not exist
-        res.writeHead( 404 ).end( JSON.stringify( { error : true, message : "User not found"} ) );        
+        res.writeHead( 200 ).end( JSON.stringify( { error : false, message : "User not found"} ) );        
       }
     } else {
       // Token does not passed
