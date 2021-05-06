@@ -132,6 +132,22 @@ helpers.userExists = function( userEmail ){
     return userExist;
 }
 
+// Read user file
+helpers.userData = function( token ){
+    // Path
+    const fullDir = path.join(__dirname,"../.data/users");
+    // File
+    const fullFile =  fullDir +"/"+ token + ".json";
+
+    if( fs.existsSync(fullFile) ){
+        // User file found
+        return JSON.parse( fs.readFileSync(fullFile) );
+    } else {
+        // File not found
+        return false;
+    }
+}
+
 // Generate unique id
 helpers.uuid = function() {
     // Token size

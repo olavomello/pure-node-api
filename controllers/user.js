@@ -1,23 +1,39 @@
 /*
   User Controller
 */
-var { controllerMethods, fileAdd, uuid, userExists } = require('../libs/helpers');
+var { controllerMethods, fileAdd, uuid, userData, userExists } = require('../libs/helpers');
 
 // Container
 var controller = {};
 
 // User > Get
-controller.get = async ( req, res ) => {
+controller.get = async ( req, res, arrPath ) => {
   //
   if(  controllerMethods( req, res, ["GET"] ) ){
     // Execute payload return
-    res.writeHead( 200 );
-    // Return // payload
-    const payload = {
-      error   : false,
-      message : "User get"
-    }
-    res.end( JSON.stringify( payload ) ); 
+
+    // User token
+    const token = String(arrPath[1]).trim();
+
+    if( token ){
+      // Token exist
+      if( user = userData(token) ){
+        // User exist
+        res.end( JSON.stringify(user));
+      } else {
+        // User does not exist
+        res.writeHead( 404 ).end( JSON.stringify( { error : true, message : "User not found"} ) );        
+      }
+    } else {
+      // Token does not passed
+      res.writeHead( 404 );
+      // Return // payload
+      const payload = {
+        error   : true,
+        message : "User token empty"
+      }
+      res.end( JSON.stringify( payload ) );
+    } 
   }
 };
 // User > Post

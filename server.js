@@ -9,18 +9,23 @@ var routes = require('./libs/routes');
 // Server
 const server = http.createServer( (req, res) => {
     try{
-        // Parse URL // ** TODO : Change func 'parse" deprecated
-        var urlParse = url.parse(req.url, true);
-        // Get path and adjust it
-        var path = urlParse.path.toLowerCase().replace(/^\/+|\/+$/g, "");
 
         // Header
         res.setHeader("Content-Type", "application/json");
 
+        // Parse URL // ** TODO : Change func 'parse" deprecated
+        var urlParse = url.parse(req.url, true);
+        // Get path and adjust it
+        var path = urlParse.path.toLowerCase().replace(/^\/+|\/+$/g, "");
+        // Find first path
+        var arrPath = path.split("/");
+        // Endpoint 
+        var endpoint = arrPath[0];
+
         // Server response
-        if ( typeof( routes[path] ) == "function" ){
+        if ( typeof( routes[endpoint] ) == "function" ){
             // Route found
-            routes[path](req, res);
+            routes[endpoint](req, res, arrPath);
         } else {
             // Route not found
             res.writeHead(404);

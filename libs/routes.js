@@ -15,11 +15,11 @@ const userController         =   require('../controllers/user');
 const routers = {};
 
 // Ping
-routers.ping    = (req, res) => pingController(req, res);
+routers.ping    = (req, res, arrPath) => pingController(req, res, arrPath);
 // User get
-routers.user    = (req, res) => userController.get(req, res);
+routers.user    = (req, res, arrPath) => userController.get(req, res, arrPath);
 // User add
-routers.useradd = (req, res) => userController.add(req, res);
+routers.useradd = (req, res, arrPath) => userController.add(req, res, arrPath);
 
 // Token
 // routers.token = pingController(req, res);
