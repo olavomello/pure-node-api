@@ -1,7 +1,7 @@
 /*
   Ping Controller
 */
-var { controllerMethods } = require('../helpers');
+var { controllerMethods } = require('../libs/helpers');
 
 const controller = async ( req, res ) => {
   //

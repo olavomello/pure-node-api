@@ -1,7 +1,8 @@
 /*
   User Controller
 */
-var { controllerMethods } = require('../helpers');
+var { controllerMethods, fileAdd, uuid } = require('../libs/helpers');
+var User = require('../models/user');
 
 // Container
 var controller = {};
@@ -24,14 +25,32 @@ controller.get = async ( req, res ) => {
 controller.add = async ( req, res ) => {
   //
   if(  controllerMethods( req, res, ["POST"] ) ){
-    // Execute payload return
-    res.writeHead( 200 );
-    // Return // payload
-    const payload = {
-      error   : false,
-      message : "User add"
-    }
-    res.end( JSON.stringify( payload ) ); 
+    // Execute payload return >>>
+
+    // Generate User uuid
+    var id = uuid();
+    console.log(id);
+    // Request body
+    var body = '';
+    req.on('data', chunk => { body += chunk.toString(); });
+    console.log(body);
+
+    // User container
+    var user = User;
+
+    // Create file
+    fileAdd( file, data, "users", function( err ){
+      if( err ){
+        // Error creating file
+        res.writeHead( 404 );
+        res.end( JSON.stringify( { error   : true, message : "User file creation error." } ) );         
+      } else {
+        // File created
+        // Error creating file
+        res.writeHead( 200 );
+        res.end( JSON.stringify( { error   : false, message : "User created." } ) );         
+      }
+    });
   }
 };
 

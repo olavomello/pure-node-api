@@ -7,8 +7,8 @@
 // const notFoundController  =   require('./controllers/notFound');
 // const tokenController     =   require('./controllers/token');
 
-const pingController         =   require('./controllers/ping');
-const userController         =   require('./controllers/user');
+const pingController         =   require('../controllers/ping');
+const userController         =   require('../controllers/user');
 
 
 // Container for routes
