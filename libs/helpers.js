@@ -119,7 +119,12 @@ helpers.userExists = function( userEmail ){
         // Read user file
         try{
             var { email } = JSON.parse(fs.readFileSync(fullDir +"/"+ file));
-            if( userEmail == email ) userExist = true;
+            if( userEmail == email ) { 
+                // Confirm that user exist
+                userExist = true;
+                // Stop files checking
+                return;
+            }
         } catch( err ){}
     });
 
