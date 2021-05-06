@@ -1,8 +1,7 @@
 /*
   User Controller
 */
-var { controllerMethods, fileAdd, uuid } = require('../libs/helpers');
-var User = require('../models/user');
+var { controllerMethods, fileAdd, uuid, apiBody } = require('../libs/helpers');
 
 // Container
 var controller = {};
@@ -31,28 +30,43 @@ controller.add = async ( req, res ) => {
     var token = uuid();
 
     // Request body
-    var body = '';
-    req.on('data', chunk => { body += chunk.toString(); });
-    console.log("Body > ", body);
+    req.on( 'data', function(body) {
 
-    // User container
-    var user      =   User;
+      if( body ){
 
-    // User data
-    user.token    =   token;
-    user.name     =   "";
-    user.email    =   "";
-    user.pass     =   "";
-    user.address  =   "";
+        body = JSON.parse( body );
 
-    // Create file
-    fileAdd( token, user, "users", function( err ){
-      // Error creating file
-      if( err ) res.writeHead(404).end( JSON.stringify( { error   : true, message : "User file creation error." } ) );  
-    });
+        // User container
+        const user = {
+          token,
+          name     :   body.name,
+          email    :   body.email,
+          pass     :   body.pass,
+          address  :   body.address,
+          createAt :   Date.now()
+        }
 
-    // User created
-    res.writeHead(200).end( JSON.stringify( { error : false, message : "User created.", user : user } ) );     
+        // Check required parameters
+        if( !( user.token && user.name && user.email && user.pass && user.address ) ){
+          res.writeHead(404).end( JSON.stringify( { error   : true, message : "User required parameters is empty." } ) );
+          return;
+        }
+
+        // Create file
+        fileAdd( token, user, "users", function( err ){
+          // Error creating file
+          if( err ) res.writeHead(404).end( JSON.stringify( { error   : true, message : "User file creation error." } ) );  
+        });
+
+        // User created
+        res.writeHead(200).end( JSON.stringify( { error : false, message : "User created.", user } ) );   
+
+      } else {
+        // No data sent
+        res.writeHead(404).end( JSON.stringify( { error   : true, message : "User data empty." } ) );  
+      }
+            
+    });  
   }
 };
 
