@@ -9,6 +9,7 @@
 
 const pingController         =   require('../controllers/ping');
 const userController         =   require('../controllers/user');
+const productController      =   require('../controllers/product');
 
 
 // Container for routes
@@ -16,6 +17,7 @@ const routers = {};
 
 // Ping
 routers.ping        = (req, res, arrPath) => pingController(req, res, arrPath);
+
 // User get
 routers.me          = (req, res, arrPath) => userController.get(req, res, arrPath);
 // User add
@@ -26,6 +28,9 @@ routers.userupdate  = (req, res, arrPath) => userController.update(req, res, arr
 routers.userdelete  = (req, res, arrPath) => userController.delete(req, res, arrPath);
 // User login
 routers.login       = (req, res, arrPath) => userController.login(req, res, arrPath);
+
+// Product list
+routers.menu        = (req, res, arrPath) => productController.menu(req, res, arrPath);
 
 // Token
 // routers.token = pingController(req, res);
