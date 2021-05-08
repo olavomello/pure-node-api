@@ -92,7 +92,7 @@ controller.add = async ( req, res ) => {
 
         // Check required parameters
         if( !( user.name && user.email && user.pass && user.address ) ){
-          res.writeHead(404).end( JSON.stringify( { error   : true, message : "User required parameters are empty." } ) );
+          res.writeHead(404).end( JSON.stringify( { error   : true, message : "Parameter(s) required(s)." } ) );
           return;
         }
 
@@ -179,7 +179,7 @@ controller.update = async ( req, res ) => {
 
         // Check required parameters
         if( !( user.name && user.email && user.pass && user.address ) ){
-          res.writeHead(404).end( JSON.stringify( { error   : true, message : "User required parameters are empty." } ) );
+          res.writeHead(404).end( JSON.stringify( { error   : true, message : "Parameter(s) required(s)." } ) );
           return;
         }
 

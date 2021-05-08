@@ -79,5 +79,10 @@ products.menu = async ( req, res, arrPath ) => {
     }
   };
 
+// Return product list
+products.list = function(){
+    return (_PRODUCTS);
+}
+
 // Export module
 module.exports = products;

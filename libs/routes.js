@@ -3,13 +3,11 @@
 */
 
 
-// Dependencies.
-// const notFoundController  =   require('./controllers/notFound');
-// const tokenController     =   require('./controllers/token');
-
+// Controllers
 const pingController         =   require('../controllers/ping');
 const userController         =   require('../controllers/user');
 const productController      =   require('../controllers/product');
+const shopcartController     =   require('../controllers/shopcart');
 
 
 // Container for routes
@@ -32,8 +30,9 @@ routers.login       = (req, res, arrPath) => userController.login(req, res, arrP
 // Product list
 routers.menu        = (req, res, arrPath) => productController.menu(req, res, arrPath);
 
-// Token
-// routers.token = pingController(req, res);
+// Shopcart
+routers.shopadd     = (req, res, arrPath) => shopcartController.add(req, res, arrPath);
 
-// Export the module.
+
+// Export the module
 module.exports = routers;
