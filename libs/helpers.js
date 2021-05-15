@@ -38,7 +38,6 @@ helpers.echo = function( msg = "", status = "normal" ) {
     else 
         console.log("\x1b[3"+color+"m%s\x1b[0m",msg);
 }
-
 // api method check
 helpers.controllerMethods = function( req, res, acceptableMethods = ['GET','POST','PUT','DELETE'] ){
     // Request method
@@ -55,11 +54,9 @@ helpers.controllerMethods = function( req, res, acceptableMethods = ['GET','POST
             status  : "Invalid method"
           }
         res.end( JSON.stringify( payload ) );    
-
         return false;
     }    
 }
-
 // Read file
 helpers.fileRead = function( id, dir ){
     // Path
@@ -154,7 +151,6 @@ helpers.fileUpdate = function( file, data, dir, callback ){
         }
     }
 }
-
 // File check if exists
 helpers.fileExists = function( file, dir ){
     
@@ -165,7 +161,6 @@ helpers.fileExists = function( file, dir ){
     // Check if exists
     return ( fs.existsSync(fullFile) ? true : false );
 }
-
 // List files and check if email exists
 helpers.userExists = function( userEmail ){
     // Control
@@ -189,7 +184,6 @@ helpers.userExists = function( userEmail ){
     // Users doesn't exist
     return userExist;
 }
-
 // List files and check if email exists
 helpers.userDataByEmail = function( userEmail, exceptId = false ){
     // Control
@@ -214,7 +208,6 @@ helpers.userDataByEmail = function( userEmail, exceptId = false ){
     // Users doesn't exist
     return userExist;
 }
-
 // Delete user file
 helpers.fileDelete = function( token, dir ){
     // Path
@@ -254,7 +247,6 @@ helpers.listUserToken = function( userId ){
     // Return token array list
     return arrFiles;
 }
-
 // Read login token
 helpers.tokenData = function( token ){
     // Path
@@ -270,7 +262,6 @@ helpers.tokenData = function( token ){
         return false;
     }
 }
-
 // Generate unique id
 helpers.uuid = function() {
     // Token size
@@ -287,7 +278,59 @@ helpers.uuid = function() {
     if( helpers.fileExists(id,"users") )        helpers.uuid();
     else                                        return id;
 }
+// User > Update token
+helpers.updateUserToken = async function( req ) {
 
+    // Request
+    try{
+
+      // User token
+      var token = ( req.headers.token ? String(req.headers.token).trim() : "");
+      // Token validation
+      token     = ( token && token != "undefined" ? token : false );
+          
+    } catch( err ) {
+      // No request
+      // console.log("updateToken error");
+      return;
+    }
+  
+    // Check required parameters
+    if( !token ) {
+      // Token not passed
+      // console.log("Token not passed");
+      return false;
+    } else if( !( userLogged = helpers.tokenData(token) ) ) {
+      // Token not found
+      // console.log("Token not found");
+      return false;        
+    }
+    // Check token expiration
+    if( userLogged.expire < Date.now()) {
+      // Token expired
+      // console.log("Token expired");
+      return false;         
+    }   
+    // Check user id
+    if( !userLogged.user.id ) {
+      // User id not found
+      // console.log("User id not found");
+      return false;           
+    }        
+    // Tolen update date-time
+    const tokenExpire = ( Date.now() + ( 60*60*1000 ) ); // 60 minutes ahead
+    
+    // Get token data
+    let userTokenData = helpers.fileRead(token, "tokens", function( err ){});
+    //console.log("userTokenData.expire before:",userTokenData.expire);
+    
+    // Update token expire
+    userTokenData.expire = tokenExpire;
+    //console.log("userTokenData.expire after:",userTokenData.expire);
+
+    // Update token file
+    helpers.fileUpdate( token, userTokenData, "tokens", function( err ){});
+};
 // API custom request | internal use
 function apiRequester( name, request, payload, callback, debug ){
     
@@ -318,7 +361,6 @@ function apiRequester( name, request, payload, callback, debug ){
     req.write( querystring.stringify(payload) )
     req.end();    
 }
-
 // Sendmail // Mailgun
 helpers.sendmail = function( userName, userEmail, subject, message, callback ){
 
@@ -346,7 +388,6 @@ helpers.sendmail = function( userName, userEmail, subject, message, callback ){
     // API Request
     apiRequester("Mailgun", request, payload, (err) => { if( err ) console.error( err ); });
 };
-
 // Payment // Stripe
 helpers.stripe = function( amount, currency, description, source, callback){
 
@@ -374,7 +415,6 @@ helpers.stripe = function( amount, currency, description, source, callback){
     // API Request
     apiRequester("Stripe", request, payload, (err) => { if( err ) console.error( err ); });
 };
-
 
 // Export
 module.exports = helpers;
