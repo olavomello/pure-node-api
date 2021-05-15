@@ -2,6 +2,7 @@
 <h3>Only using native NodeJs libs ;)</h3>
 
 <div align="center" style="text-align:center;">
+    <img src="https://img.shields.io/node/v/passport"/> 
     <img src="https://img.shields.io/github/issues/olavomello/pure-node-api?style=flat"/> <img src="https://img.shields.io/github/stars/olavomello/pure-node-api?style=flat"/> <img src="https://img.shields.io/github/issues/olavomello/pure-node-api?style=flat"/> 
 </div>
 
