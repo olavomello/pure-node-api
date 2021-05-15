@@ -2,7 +2,7 @@
 var http = require('http');
 var url = require('url');
 var fs = require('fs');
-var config = require('./libs/configs');
+var config = require('./configs');
 var { echo } = require('./libs/helpers');
 var routes = require('./libs/routes');
 

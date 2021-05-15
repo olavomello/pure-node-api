@@ -2,7 +2,7 @@
     Functions and helpers
 */
 
-var config = require('./../libs/configs');
+var config = require('./../configs');
 var fs = require('fs');
 var path = require('path');
 var querystring = require('querystring');
