@@ -40,7 +40,7 @@ helpers.echo = function( msg = "", status = "normal" ) {
 helpers.controllerMethods = function( req, res, acceptableMethods = ['GET','POST','PUT','DELETE'] ){
     // Request method
     const method = String(req.method).toUpperCase();
-    
+
     if( acceptableMethods.indexOf( method ) > -1 ){
         // Method accepted
         return true;
@@ -55,6 +55,22 @@ helpers.controllerMethods = function( req, res, acceptableMethods = ['GET','POST
 
         return false;
     }    
+}
+
+// Read file
+helpers.fileRead = function( id, dir ){
+    // Path
+    const fullDir = path.join(__dirname,"../.data/" + dir);
+    // File
+    const fullFile =  fullDir +"/"+ id + ".json";
+
+    if( fs.existsSync(fullFile) ){
+        // User file found
+        return JSON.parse( fs.readFileSync(fullFile) );
+    } else {
+        // File not found
+        return false;
+    }
 }
 
 // File creation
@@ -169,22 +185,6 @@ helpers.userExists = function( userEmail ){
 
     // Users doesn't exist
     return userExist;
-}
-
-// Read user file
-helpers.userData = function( token ){
-    // Path
-    const fullDir = path.join(__dirname,"../.data/tokens");
-    // File
-    const fullFile =  fullDir +"/"+ token + ".json";
-
-    if( fs.existsSync(fullFile) ){
-        // User file found
-        return JSON.parse( fs.readFileSync(fullFile) );
-    } else {
-        // File not found
-        return false;
-    }
 }
 
 // List files and check if email exists
