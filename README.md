@@ -1,6 +1,11 @@
 <h1>PURE SHOPCART API NODE.JS</h1>
 <h3>Only using native NodeJs libs ;)</h3>
 
+<img src="https://img.shields.io/github/issues/olavomello/pure-node-api?style=flat"/> 
+<img src="https://img.shields.io/github/stars/olavomello/pure-node-api?style=flat"/> 
+<img src="https://img.shields.io/github/issues/olavomello/pure-node-api?style=flat"/> 
+
+
 <h4>Firstly, set configs.js file on basepath:</h4>
 
 ```Javascript
@@ -31,4 +36,4 @@ module.exports = environmentExport;
 ```
 
 <h2>API usage test</h2>
-<p>Use YAML file to test on Insominia using : <b><a href="https://github.com/olavomello/pure-node-api/blob/master/Insomnia.yaml">Insomnia.yaml</a></b></p>
+<p>Use YAML file to test on Insominia using : <b><a target="_blank" href="https://github.com/olavomello/pure-node-api/blob/master/Insomnia.yaml">Insomnia.yaml</a></b></p>
