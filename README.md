@@ -1,5 +1,5 @@
 <h1>PURE SHOPCART API NODE.JS</h1>
-<h3>Only using native NodeJs libs ;)</h3>
+<h3>Only using NodeJs native libs ;)</h3>
 
 <div align="center" style="text-align:center;">
     <img src="https://img.shields.io/github/issues/olavomello/pure-node-api?style=flat"/> <img src="https://img.shields.io/github/stars/olavomello/pure-node-api?style=flat"/> <img src="https://img.shields.io/github/issues/olavomello/pure-node-api?style=flat"/> 
