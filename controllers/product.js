@@ -4,7 +4,8 @@
 
 var { 
     controllerMethods,
-    fileRead
+    fileRead,
+    tokenUpdate
 } = require('../libs/helpers');
 
 // Container for produts / menu
@@ -60,6 +61,10 @@ controller.menu = async ( req, res, arrPath ) => {
             res.writeHead( 404 ).end( JSON.stringify( { error : false, message : "Token expired. Please do login again."} ) );            
           } else {
             // Token ok and User exist
+        
+            // Update user token
+            tokenUpdate(req);
+                        
             res.end( JSON.stringify(_PRODUCTS));          
           }
         } else {

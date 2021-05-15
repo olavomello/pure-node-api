@@ -11,7 +11,8 @@ var {
         tokenData,
         fileRead,         
         fileDelete,
-        listUserToken
+        listUserToken,
+        tokenUpdate
     } = require('../libs/helpers');
 
 // Container
@@ -38,6 +39,11 @@ controller.get = async ( req, res, arrPath ) => {
           res.writeHead( 404 ).end( JSON.stringify( { error : false, message : "Token expired. Please do login again."} ) );            
         } else {
           // Token ok and User exist
+
+          // Update user token
+          tokenUpdate(req);
+          
+          // Return
           res.end( JSON.stringify(userLogged));          
         }
       } else {
@@ -165,6 +171,9 @@ controller.update = async ( req, res ) => {
           res.writeHead(404).end( JSON.stringify( { error   : true, message : "User id not found." } ) );
           return;          
         }        
+
+        // Update user token
+        tokenUpdate(req);
 
         // User container
         const user = {

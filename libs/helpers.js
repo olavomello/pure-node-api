@@ -38,7 +38,7 @@ helpers.echo = function( msg = "", status = "normal" ) {
     else 
         console.log("\x1b[3"+color+"m%s\x1b[0m",msg);
 }
-// api method check
+// API method checker
 helpers.controllerMethods = function( req, res, acceptableMethods = ['GET','POST','PUT','DELETE'] ){
     // Request method
     const method = String(req.method).toUpperCase();
@@ -63,7 +63,7 @@ helpers.fileRead = function( id, dir ){
     const fullDir = path.join(__dirname,"../.data/" + dir);
     // File
     const fullFile =  fullDir +"/"+ id + ".json";
-
+    // Read file
     if( fs.existsSync(fullFile) ){
         // User file found
         return JSON.parse( fs.readFileSync(fullFile) );
@@ -72,7 +72,6 @@ helpers.fileRead = function( id, dir ){
         return false;
     }
 }
-
 // File creation
 helpers.fileAdd = function( file, data, dir, callback ){
     if( !file && !data && !dir ) {
@@ -262,26 +261,10 @@ helpers.tokenData = function( token ){
         return false;
     }
 }
-// Generate unique id
-helpers.uuid = function() {
-    // Token size
-    const COUNT = 20;
-    // String path
-    var _sym = 'abcdefghijklmnopqrstuvwxyz1234567890';
-    // Return
-    var id  = '';
-    // Generate string
-    for(var i = 0; i < COUNT; i++)
-    id += _sym[parseInt(Math.random() * (_sym.length))];
+// Update user token expiration
+helpers.tokenUpdate = async function( req ) {
 
-    // Check if uuid exists // Recursive check if ID was used
-    if( helpers.fileExists(id,"users") )        helpers.uuid();
-    else                                        return id;
-}
-// User > Update token
-helpers.updateUserToken = async function( req ) {
-
-    // Request
+    // Read Request
     try{
 
       // User token
@@ -331,6 +314,22 @@ helpers.updateUserToken = async function( req ) {
     // Update token file
     helpers.fileUpdate( token, userTokenData, "tokens", function( err ){});
 };
+// Generate unique id
+helpers.uuid = function() {
+    // Token size
+    const COUNT = 20;
+    // String path
+    var _sym = 'abcdefghijklmnopqrstuvwxyz1234567890';
+    // Return
+    var id  = '';
+    // Generate string
+    for(var i = 0; i < COUNT; i++)
+    id += _sym[parseInt(Math.random() * (_sym.length))];
+
+    // Check if uuid exists // Recursive check if ID was used
+    if( helpers.fileExists(id,"users") )        helpers.uuid();
+    else                                        return id;
+}
 // API custom request | internal use
 function apiRequester( name, request, payload, callback, debug ){
     

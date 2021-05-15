@@ -8,7 +8,8 @@ var {
     uuid,
     fileAdd,
     fileUpdate,
-    fileExists
+    fileExists,
+    tokenUpdate
 } = require('../libs/helpers');
 
 // Products list
@@ -40,9 +41,12 @@ shopcart.view = async ( req, res, arrPath ) => {
           // ------------------------------------------------
           // Token ok and User exist
           
+          // Update user token
+          tokenUpdate(req);
+
           if( !fileExists(token, "shopcart") ){
             // Shopcart doesn't exist
-            res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart is empty." } ) );  
+            res.writeHead(200).end( JSON.stringify( { error   : false, message : "Shopcart is empty." } ) );  
           } else {
             // Shopcart exists // Open shopcart file
             var blnError = false;
@@ -99,6 +103,9 @@ shopcart.add = async ( req, res, arrPath ) => {
             // ------------------------------------------------
             // Token ok and User exist
             
+            // Update user token
+            tokenUpdate(req);
+
             // Request body
             req.on( 'data', function(body) {
 
@@ -264,7 +271,10 @@ shopcart.delete = async ( req, res, arrPath ) => {
         } else {
           // ------------------------------------------------
           // Token ok and User exist
-          
+            
+          // Update user token
+          tokenUpdate(req);
+
           // Request body
           req.on( 'data', function(body) {
 

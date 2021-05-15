@@ -9,7 +9,6 @@ const userController        =     require('../controllers/user');
 const productController     =     require('../controllers/product');
 const shopcartController    =     require('../controllers/shopcart');
 
-
 // Container for routes
 const routers               =     {};
 
