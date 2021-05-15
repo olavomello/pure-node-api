@@ -4,9 +4,11 @@
 
 var { 
     controllerMethods,
-    userData,
+    fileRead,
     uuid,
-    fileAdd
+    fileAdd,
+    fileUpdate,
+    fileExists
 } = require('../libs/helpers');
 
 // Products list
@@ -15,13 +17,69 @@ const { PRODUCTS } = require('../controllers/product');
 // Container for produts / menu
 const shopcart = {}
 
-// Menu
+// Shopcart viewx
+shopcart.view = async ( req, res, arrPath ) => {
+  //
+  if(  controllerMethods( req, res, ["GET"] ) ){
+    // Execute payload return
+
+    // User token
+    var token = String(req.headers.token).trim();
+    // Token validation
+    token     = ( token && token != "undefined" ? token : false );
+
+    if( token ){
+      // Token exist
+      if( userLogged = fileRead(token,"tokens") ){
+  
+        // Check token expiration
+        if( userLogged.expire < Date.now()) {
+          // Token expired
+          res.writeHead( 404 ).end( JSON.stringify( { error : false, message : "Token expired. Please do login again."} ) );            
+        } else {
+          // ------------------------------------------------
+          // Token ok and User exist
+          
+          if( !fileExists(token, "shopcart") ){
+            // Shopcart doesn't exist
+            res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart is empty." } ) );  
+          } else {
+            // Shopcart exists // Open shopcart file
+            var blnError = false;
+            const shopcartData = fileRead(token, "shopcart", function( err ){
+              blnError = ( err ? true : false );
+            });
+            if( blnError ) {
+              res.writeHead(404).end( JSON.stringify( { error   : true, message : "Error reading shopcart." } ) );  
+            } else {
+              // Return shopcart
+              res.writeHead( 200 ).end( JSON.stringify( { error : false, shopcart : shopcartData } ) );                
+            }
+          }  
+          
+          // ------------------------------------------------     
+        }
+      } else {
+        // User does not exist
+        res.writeHead( 200 ).end( JSON.stringify( { error : false, message : "User not found"} ) );        
+      }
+    } else {
+      // Token does not passed
+      res.writeHead( 404 );
+      // Return // payload
+      const payload = {
+        error   : true,
+        message : "User token empty"
+      }
+      res.end( JSON.stringify( payload ) );
+    } 
+  }
+};
+
+// Shopcart add
 shopcart.add = async ( req, res, arrPath ) => {
-
-    console.log( PRODUCTS ); 
-
     //
-    if(  controllerMethods( req, res, ["POST"] ) ){
+    if(  controllerMethods( req, res, ["POST","PUT"] ) ){
       // Execute payload return
   
       // User token
@@ -31,7 +89,7 @@ shopcart.add = async ( req, res, arrPath ) => {
   
       if( token ){
         // Token exist
-        if( userLogged = userData(token) ){
+        if( userLogged = fileRead(token,"tokens") ){
     
           // Check token expiration
           if( userLogged.expire < Date.now()) {
@@ -53,7 +111,7 @@ shopcart.add = async ( req, res, arrPath ) => {
                 var id = uuid();
 
                 // Control product add errors
-                var bln_error = false;
+                var blnError = false;
 
                 // Test id creation
                 if( !id ){
@@ -71,6 +129,7 @@ shopcart.add = async ( req, res, arrPath ) => {
                 // Product add container
                 const shopcartData = {
                   id,
+                  token,
                   itens : []
                 }
                 // Add Products
@@ -83,12 +142,10 @@ shopcart.add = async ( req, res, arrPath ) => {
                   // Minimum quantity
                   if( qtde < 1 )  qtde = 1;
 
-                  console.log("PRODUCTS:", PRODUCTS);
-
                   // Check if product exists
-                  if( !PRODUCTS.find( p => p.id === id ) ){
+                  if( !PRODUCTS.find( p => p.id == id ) ){
                     // Product not found
-                    bln_error = true;
+                    blnError = true;
                   } else           
                     // Adding product
                     shopcartData.itens.push({
@@ -100,23 +157,63 @@ shopcart.add = async ( req, res, arrPath ) => {
                 }); // body data
                 
                 // Check error to add products 
-                if( bln_error ){
+                if( blnError ){
                   res.writeHead(404).end( JSON.stringify( { error   : true, message : "Some product added on shopcart doesn't exist." } ) );
                   return;          
                 }
    
-                // Create file
-                fileAdd( id, shopcartData, "shopcart", function( err ){
-                  // Error creating file
-                  if( err ) {
-                    res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart file creation error." } ) );  
-                    return;
-                  }
-                });
+                if( !fileExists(token, "shopcart") ){
+                  // Create shopcart file
+                  fileAdd( token, shopcartData, "shopcart", function( err ){
+                    // Error creating file
+                    if( err ) {
+                      res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart file creation error." } ) );  
+                      return;
+                    }
+                  });
+                } else {
+                  // Shopcart exists
 
-                // Product added
-                res.writeHead(200).end( JSON.stringify( { error : false, message : "Product added to shopcart.", shopcartData } ) );   
+                  // Open shopcart file
+                  const shopcartOldData = fileRead(token, "shopcart", function( err ){
+                    if( err ) {
+                      res.writeHead(404).end( JSON.stringify( { error   : true, message : "Error reading shopcart." } ) );  
+                      blnError = true;
+                      return;
+                    }
+                  });
 
+                  // New shopcart data
+                  var newShopcart = shopcartOldData;
+
+                  // Add itens
+                  shopcartData.itens.forEach( (prod, i) => {
+                    // List prod on actual shopcart
+                    var prodIdx = shopcartOldData.itens.map( p => p.productId ).indexOf( prod.productId );
+                    // List products to add // If product exist update quantity else add product
+                    if( prodIdx > -1 ){
+                      // Product exists on shopcart // change quantity
+                      newShopcart.itens[i].quantity =  shopcartData.itens[prodIdx].quantity;
+                    } else {
+                      // New product / add to shopcart
+                      newShopcart.itens.push(prod);
+                    }
+                  });
+
+                  // Update shopcart
+                  fileUpdate( token, newShopcart, "shopcart", function( err ) {
+                    if( err ) {
+                      res.writeHead(404).end( JSON.stringify( { error   : true, message : "Error updating. ["+err+"]" } ) );  
+                      blnError = true;
+                      return;
+                    }
+                  });
+                }
+
+                if( !blnError ){
+                  // Product added
+                  res.writeHead(200).end( JSON.stringify( { error : false, message : "Product(s) added(s) to shopcart.", "shopcart" : newShopcart || shopcartData } ) );   
+                }
               } else {
                 // No data sent
                 res.writeHead(404).end( JSON.stringify( { error   : true, message : "Product data empty." } ) );  
@@ -141,7 +238,138 @@ shopcart.add = async ( req, res, arrPath ) => {
         res.end( JSON.stringify( payload ) );
       } 
     }
-  };
+};
+
+// Shopcart delete
+shopcart.delete = async ( req, res, arrPath ) => {
+  //
+  if(  controllerMethods( req, res, ["DELETE"] ) ){
+    // Execute payload return
+
+    // User token
+    var token = String(req.headers.token).trim();
+    // Token validation
+    token     = ( token && token != "undefined" ? token : false );
+
+    if( token ){
+      // Token exist
+      if( userLogged = fileRead(token,"tokens") ){
+  
+        // Check token expiration
+        if( userLogged.expire < Date.now()) {
+          // Token expired
+          res.writeHead( 404 ).end( JSON.stringify( { error : false, message : "Token expired. Please do login again."} ) );            
+        } else {
+          // ------------------------------------------------
+          // Token ok and User exist
+          
+          // Request body
+          req.on( 'data', function(body) {
+
+            if( body ){
+
+              // Body parse
+              body = JSON.parse( body );
+
+              // Generate Shopcart uuid
+              var id = uuid();
+
+              // Control product add errors
+              var blnError = false;
+
+              // Test id creation
+              if( !id ){
+                  // Generate id Error
+                  res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart unique id creation error." } ) );
+                  return;
+              }
+
+              // Check required parameters
+              if( !body.itens.length ){
+                res.writeHead(404).end( JSON.stringify( { error   : true, message : "Itens empty / Products needed." } ) );
+                return;
+              }
+
+              // Product add container
+              const shopcartData = {
+                id,
+                token,
+                itens : []
+              }
+ 
+              if( !fileExists(token, "shopcart") ){
+                // Shopcart doesn't exist
+                res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart doesn't exist." } ) );  
+                return;
+              } else {
+                // Shopcart exists
+
+                // Open shopcart file
+                const shopcartOldData = fileRead(token, "shopcart", function( err ){
+                  if( err ) {
+                    res.writeHead(404).end( JSON.stringify( { error   : true, message : "Error reading shopcart." } ) );  
+                    blnError = true;
+                    return;
+                  }
+                });
+
+                // New shopcart data
+                var newShopcart = shopcartOldData;
+
+                // Products to be removed
+                var shopcartDataDelete = [];
+                // Fill products to be removed  
+                body.itens.map( ( prod ) => {
+
+                  // Try to remove itens
+                  var prodIdx = newShopcart.itens.map( p => p.productId ).indexOf( prod.productId );
+                  // List products to remove
+                  if( prodIdx > -1 ){
+                    // Product exists on shopcart // remove
+                    newShopcart.itens.splice(prodIdx,1);
+                  }
+                }); // body data
+
+                // Update shopcart
+                fileUpdate( token, newShopcart, "shopcart", function( err ) {
+                  if( err ) {
+                    res.writeHead(404).end( JSON.stringify( { error   : true, message : "Error deleting. ["+err+"]" } ) );  
+                    blnError = true;
+                    return;
+                  }
+                });
+              }
+
+              if( !blnError ){
+                // Product added
+                res.writeHead(200).end( JSON.stringify( { error : false, message : "Product(s) removed(s) from shopcart.", "shopcart" : newShopcart } ) );   
+              }
+
+            } else {
+              // No data sent
+              res.writeHead(404).end( JSON.stringify( { error   : true, message : "Product data empty." } ) );  
+            }
+                  
+          });   
+
+          // ------------------------------------------------     
+        }
+      } else {
+        // User does not exist
+        res.writeHead( 200 ).end( JSON.stringify( { error : false, message : "User not found"} ) );        
+      }
+    } else {
+      // Token does not passed
+      res.writeHead( 404 );
+      // Return // payload
+      const payload = {
+        error   : true,
+        message : "User token empty"
+      }
+      res.end( JSON.stringify( payload ) );
+    } 
+  }
+};
 
 // Export module
 module.exports = shopcart;

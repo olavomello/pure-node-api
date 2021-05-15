@@ -134,7 +134,7 @@ helpers.fileUpdate = function( file, data, dir, callback ){
         }
 
         // Check if file exists
-        if( helpers.fileExists( file, "users") ){
+        if( helpers.fileExists( file, dir) ){
             // Update file
             fs.writeFile( fullDir +"/"+ file + ".json", JSON.stringify(data), function(err) {
                 if(err) {

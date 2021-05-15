@@ -4,11 +4,11 @@
 
 var { 
     controllerMethods,
-    userData
+    fileRead
 } = require('../libs/helpers');
 
 // Container for produts / menu
-const products = {}
+const controller = {}
 
 // Constants
 const _PRODUCTS = [
@@ -40,7 +40,7 @@ const _PRODUCTS = [
 ];
 
 // Menu
-products.menu = async ( req, res, arrPath ) => {
+controller.menu = async ( req, res, arrPath ) => {
     //
     if(  controllerMethods( req, res, ["GET"] ) ){
       // Execute payload return
@@ -52,7 +52,7 @@ products.menu = async ( req, res, arrPath ) => {
   
       if( token ){
         // Token exist
-        if( userLogged = userData(token) ){
+        if( userLogged = fileRead(token,"tokens") ){
     
           // Check token expiration
           if( userLogged.expire < Date.now()) {
@@ -80,9 +80,9 @@ products.menu = async ( req, res, arrPath ) => {
   };
 
 // Return product list
-products.list = function( req, res, arrPath ){
+controller.list = function( req, res, arrPath ){
     return JSON.stringify(_PRODUCTS);
 }
 
 // Export module
-module.exports = { products, PRODUCTS : _PRODUCTS };
+module.exports = { PRODUCTS : _PRODUCTS, controller };

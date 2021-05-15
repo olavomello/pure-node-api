@@ -5,17 +5,17 @@ var {
         controllerMethods, 
         fileAdd, 
         uuid, 
-        userData, 
         userExists, 
         userDataByEmail, 
         fileUpdate, 
         tokenData,
+        fileRead,         
         fileDelete,
         listUserToken
     } = require('../libs/helpers');
 
 // Container
-var controller = {};
+const controller = {};
 
 // User > Get
 controller.get = async ( req, res, arrPath ) => {
@@ -30,7 +30,7 @@ controller.get = async ( req, res, arrPath ) => {
 
     if( token ){
       // Token exist
-      if( userLogged = userData(token) ){
+      if( userLogged = fileRead(token,"tokens") ){
   
         // Check token expiration
         if( userLogged.expire < Date.now()) {
@@ -376,9 +376,6 @@ controller.delete = async ( req, res, arrPath ) => {
     });
   }
 };
-
-
-
 
 // Export the module.
 module.exports = controller;

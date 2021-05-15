@@ -3,9 +3,12 @@
 */
 var { controllerMethods } = require('../libs/helpers');
 
-const controller = async ( req, res ) => {
+// Container
+const controller = {};
+
+controller.ping = async ( req, res, arrPath ) => {
   //
-  if(  controllerMethods( req, res, ["GET"] ) ){
+  if(  controllerMethods( req, res, ["GET","POST"] ) ){
     // Execute payload return
     res.writeHead( 200 );
     // Return // payload
