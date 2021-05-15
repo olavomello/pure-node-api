@@ -2,6 +2,7 @@
     Functions and helpers
 */
 
+var config = require('./../config');
 var fs = require('fs');
 var path = require('path');
 var querystring = require('querystring');
@@ -287,55 +288,93 @@ helpers.uuid = function() {
     else                                        return id;
 }
 
-// Sendmail // mailgun
-helpers.sendmail = function( userName, userEmail, subject, message, callback ){
-
+// API custom request | internal use
+function apiRequester( name, request, payload, callback ){
+    
     // Callback check
     const hasCallback = (callback && typeof callback === 'function');
 
-    // Configs
-    var payload = {
-      'from'    :   'Mailgun Sandbox <postmaster@sandboxd315fa056beb4922a1c275adef3169e7.mailgun.org>',
-      'to'      :   userName + '<'+ userEmail +'>',
-      'subject' :   subject,
-      'text'    :   message
-    };
-    var stringPayload = querystring.stringify(payload);
+    // API Request
+    var req = https.request(request, function(res){
+        // Status from request
+        var status = res.statusCode;
+        // Callback successfully if the request went through
+        if( status == 200 || status == 201 ){
+          if( hasCallback ) callback(false);
+        } else {
+          // Error 
+          if( hasCallback ) callback(name + '> api status error : ' + status);
+        }
+    });
+    
+    // Bind api errors
+    req.on('error',function(e){
+        if( hasCallback ) callback(name + '> Error :' + e);
+    });
+    // Execute and finish
+    req.write( querystring.stringify(payload) ).end();    
+}
 
+// Sendmail // Mailgun
+helpers.sendmail = function( userName, userEmail, subject, message, callback ){
+
+    // Payload
+    var payload = {
+        'from'    :   config.mailgun.sender,
+        'to'      :   userName + '<'+ userEmail +'>',
+        'subject' :   subject,
+        'text'    :   message
+    };    
+    
     // Configure the request
-    var requestDetails = {
+    var request = {
       'protocol' :  'https:',
       'hostname' :  'api.mailgun.net',
       'method'   :  'POST',
-      'auth'     :  'api:956842a909cf508f5a0002ce32b88c02-602cc1bf-022de2ac',
-      'path'     :  '/v3/sandboxd315fa056beb4922a1c275adef3169e7.mailgun.org/messages',
+      'auth'     :  config.mailgun.apiKey,
+      'path'     :  '/v3/' + config.mailgun.domain + '/messages',
       'headers'  :  {
-        'Content-Type' : 'application/x-www-form-urlencoded',
-        'Content-Length' : Buffer.byteLength(stringPayload)
+        'Content-Type'      : 'application/x-www-form-urlencoded',
+        'Content-Length'    : Buffer.byteLength(querystring.stringify(payload))
       }
-    }
+    };
   
     // API Request
-    var req = https.request(requestDetails,function(res){
-      // Status from request
-      var status = res.statusCode;
-      // Callback successfully if the request went through
-      if( status == 200 || status == 201 ){
-        if( hasCallback ) callback(false);
-      } else {
-        // Error 
-        if( hasCallback ) callback('Send mail error. Status : ' + status);
-      }
+    apiRequester("Mailgun", request, payload, function(err){
+        if( err ) console.error( err );
     });
-  
-    // Bind api errors
-    req.on('error',function(e){
-        if( hasCallback ) callback(e);
-    });
-  
-    req.write(stringPayload);
-    req.end();
 };
+
+// Payment // Stripe
+helpers.stripe = function( amount, currency, description, source, callback){
+
+    // Payload
+    var payload = {
+        'amount'        :   amount,
+        'currency'      :   currency,
+        'description'   :   description,
+        'source'        :   source,
+    };
+
+    // Request
+    var request = {
+      'protocol'        : 'https:',
+      'hostname'        : 'api.stripe.com',
+      'method'          : 'POST',
+      'auth'            : config.stripe.secretKey,
+      'path'            : '/v1/charges',
+      'headers'         : {
+            'Content-Type'  : 'application/x-www-form-urlencoded',
+            'Content-Length': Buffer.byteLength(querystring.stringify(payload))
+        }
+    };  
+  
+    // API Request
+    apiRequester("Stripe", request, payload, function(err){
+        if( err ) console.error( err );
+    });
+};
+
 
 // Export
 module.exports = helpers;

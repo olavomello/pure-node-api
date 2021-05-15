@@ -246,7 +246,7 @@ controller.login = async ( req, res, arrPath ) => {
               }
 
               // User data
-              const tokenExpire = ( Date.now() + ( 25*60*1000 ) ); // 25 minutes
+              const tokenExpire = ( Date.now() + ( 60*60*1000 ) ); // 60 minutes
               const userLogged  = { auth : true, token, expire : tokenExpire, user };
 
               // Update user file

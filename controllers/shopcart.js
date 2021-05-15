@@ -8,7 +8,8 @@ var {
     uuid,
     fileAdd,
     fileUpdate,
-    fileExists
+    fileExists,
+    sendmail
 } = require('../libs/helpers');
 
 // Products list
