@@ -1,5 +1,5 @@
 /*
-  Shopcart Controller
+  Order Controller
 */
 
 var { 
@@ -7,7 +7,6 @@ var {
     fileRead,
     uuid,
     fileAdd,
-    fileUpdate,
     fileExists,
     tokenUpdate
 } = require('../libs/helpers');
@@ -45,10 +44,10 @@ controller.view = async ( req, res, arrPath ) => {
           tokenUpdate(req);
 
           if( !fileExists(token, "orders") ){
-            // Shopcart doesn't exist
+            // Order doesn't exist
             res.writeHead(200).end( JSON.stringify( { error   : false, message : "Order not found." } ) );  
           } else {
-            // Shopcart exists // Open shopcart file
+            // Order exists // Open order file
             var blnError = false;
             const orderData = fileRead(token, "orders", function( err ){
               blnError = ( err ? true : false );
@@ -56,7 +55,7 @@ controller.view = async ( req, res, arrPath ) => {
             if( blnError ) {
               res.writeHead(404).end( JSON.stringify( { error   : true, message : "Error reading order." } ) );  
             } else {
-              // Return shopcart
+              // Return order
               res.writeHead( 200 ).end( JSON.stringify( { error : false, order : orderData } ) );                
             }
           }  
