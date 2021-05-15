@@ -289,8 +289,11 @@ helpers.uuid = function() {
 }
 
 // API custom request | internal use
-function apiRequester( name, request, payload, callback ){
+function apiRequester( name, request, payload, callback, debug ){
     
+    // Debug
+    if( debug ) console.log("Debugging : " + name, request, payload);
+
     // Callback check
     const hasCallback = (callback && typeof callback === 'function');
 
@@ -312,7 +315,8 @@ function apiRequester( name, request, payload, callback ){
         if( hasCallback ) callback(name + '> Error :' + e);
     });
     // Execute and finish
-    req.write( querystring.stringify(payload) ).end();    
+    req.write( querystring.stringify(payload) )
+    req.end();    
 }
 
 // Sendmail // Mailgun
@@ -325,13 +329,13 @@ helpers.sendmail = function( userName, userEmail, subject, message, callback ){
         'subject' :   subject,
         'text'    :   message
     };    
-    
+
     // Configure the request
     var request = {
       'protocol' :  'https:',
       'hostname' :  'api.mailgun.net',
       'method'   :  'POST',
-      'auth'     :  config.mailgun.apiKey,
+      'auth'     :  config.mailgun.key,
       'path'     :  '/v3/' + config.mailgun.domain + '/messages',
       'headers'  :  {
         'Content-Type'      : 'application/x-www-form-urlencoded',
@@ -340,9 +344,7 @@ helpers.sendmail = function( userName, userEmail, subject, message, callback ){
     };
   
     // API Request
-    apiRequester("Mailgun", request, payload, function(err){
-        if( err ) console.error( err );
-    });
+    apiRequester("Mailgun", request, payload, (err) => { if( err ) console.error( err ); }, true);
 };
 
 // Payment // Stripe
@@ -370,9 +372,7 @@ helpers.stripe = function( amount, currency, description, source, callback){
     };  
   
     // API Request
-    apiRequester("Stripe", request, payload, function(err){
-        if( err ) console.error( err );
-    });
+    apiRequester("Stripe", request, payload, (err) => { if( err ) console.error( err ); }, false);
 };
 
 
