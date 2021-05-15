@@ -42,7 +42,7 @@ controller.get = async ( req, res, arrPath ) => {
 
           // Update user token
           tokenUpdate(req);
-          
+
           // Return
           res.end( JSON.stringify(userLogged));          
         }
@@ -353,10 +353,10 @@ controller.delete = async ( req, res, arrPath ) => {
                 arrTokens.map( (tokenId) => { 
                   if( fileDelete(tokenId, "tokens") ){
                     // Token deleted
-                    console.log("Token deleted : ", tokenId);
+                    // console.log("Token deleted : ", tokenId);
                   } else {
                     // Token not found
-                    console.log("Error trying to delete token : ", tokenId);
+                    // console.log("Error trying to delete token : ", tokenId);
                   }
                 });
 
