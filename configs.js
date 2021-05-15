@@ -1,5 +1,5 @@
 /*
-  Configs from API 
+  Configs 
 */
 
 // Container for configs
