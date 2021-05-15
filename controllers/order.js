@@ -166,11 +166,22 @@ controller.add = async ( req, res, arrPath ) => {
                   }
                 });
 
+                // User data to be placed at order
+                const userData = {
+                  id        :   userLogged.user.id,
+                  name      :   userLogged.user.name,
+                  email     :   userLogged.user.email,
+                  address   :   userLogged.user.address
+                };
+
+                // Remove unliked datas
+                delete shopcart.token;
+
                 // Order
                 let orderData = {
                   id,
                   token,
-                  user : userLogged,
+                  user : userData,
                   shopcart,
                   amout,
                   createAt : Date.now()
