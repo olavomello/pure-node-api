@@ -1,6 +1,7 @@
-## PURE SHOPCART NODE.JS
+<h1>PURE SHOPCART NODE.JS</h1>
 
-// Set Configs
+
+<h3>Set configs.js file on basepath:</h3>
 <code>
 // Container for configs
 var enviroment = {};
