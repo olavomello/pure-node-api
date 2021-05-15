@@ -7,6 +7,9 @@ var {
     userData
 } = require('../libs/helpers');
 
+// Container for produts / menu
+const products = {}
+
 // Constants
 const _PRODUCTS = [
     {
@@ -35,9 +38,6 @@ const _PRODUCTS = [
         price   : 5.00
     }                                         
 ];
-
-// Container for produts / menu
-const products = {}
 
 // Menu
 products.menu = async ( req, res, arrPath ) => {
@@ -80,9 +80,9 @@ products.menu = async ( req, res, arrPath ) => {
   };
 
 // Return product list
-products.list = function(){
-    return (_PRODUCTS);
+products.list = function( req, res, arrPath ){
+    return JSON.stringify(_PRODUCTS);
 }
 
 // Export module
-module.exports = products;
+module.exports = { products, PRODUCTS : _PRODUCTS };

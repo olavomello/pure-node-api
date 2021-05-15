@@ -5,14 +5,12 @@
 var { 
     controllerMethods,
     userData,
-    uuid
+    uuid,
+    fileAdd
 } = require('../libs/helpers');
 
 // Products list
-const { list } = require('../controllers/product');
-
-// Product list
-const _PRODUCTS = list; // TODO - export products
+const { PRODUCTS } = require('../controllers/product');
 
 // Container for produts / menu
 const shopcart = {}
@@ -20,7 +18,7 @@ const shopcart = {}
 // Menu
 shopcart.add = async ( req, res, arrPath ) => {
 
-    console.log( _PRODUCTS ); 
+    console.log( PRODUCTS ); 
 
     //
     if(  controllerMethods( req, res, ["POST"] ) ){
@@ -43,79 +41,88 @@ shopcart.add = async ( req, res, arrPath ) => {
             // ------------------------------------------------
             // Token ok and User exist
             
-    // Request body
-    req.on( 'data', function(body) {
+            // Request body
+            req.on( 'data', function(body) {
 
-      if( body ){
+              if( body ){
 
-        // Body parse
-        body = JSON.parse( body );
+                // Body parse
+                body = JSON.parse( body );
 
-        // Generate Shopcart uuid
-        var id = uuid();
+                // Generate Shopcart uuid
+                var id = uuid();
 
-        // Test id creation
-        if( !id ){
-            // Generate id Error
-            res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart unique id creation error." } ) );
-            return;
-        }
+                // Control product add errors
+                var bln_error = false;
 
-        // Check required parameters
-        if( !body.itens.length ){
-          res.writeHead(404).end( JSON.stringify( { error   : true, message : "Itens empty / Products needed." } ) );
-          return;
-        }
+                // Test id creation
+                if( !id ){
+                    // Generate id Error
+                    res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart unique id creation error." } ) );
+                    return;
+                }
 
-        // Product add container
-        const shopcartData = {
-          id,
-          itens : []
-        }
-        // Add Products
-        body.itens.map( ( prod ) => {
+                // Check required parameters
+                if( !body.itens.length ){
+                  res.writeHead(404).end( JSON.stringify( { error   : true, message : "Itens empty / Products needed." } ) );
+                  return;
+                }
 
-          // Product id
-          var id    =   Number(prod.productId);
-          var qtde  =   Number(prod.quantity);
+                // Product add container
+                const shopcartData = {
+                  id,
+                  itens : []
+                }
+                // Add Products
+                body.itens.map( ( prod ) => {
 
-          // Minimum quantity
-          if( qtde < 1 )  qtde = 1;
+                  // Product id
+                  var id    =   Number(prod.productId);
+                  var qtde  =   Number(prod.quantity);
 
-          // Check if product exists
-          if( _PRODUCTS.indexOf( id ) == -1 ){
-            // Product not found
-            res.writeHead(404).end( JSON.stringify( { error   : true, message : "Product doesn't exist." } ) ); 
-            return;
-          }
+                  // Minimum quantity
+                  if( qtde < 1 )  qtde = 1;
 
-          // Adding product
-          shopcartData.itens.push({
-                    productId   :   id,
-                    quantity    :   qtde,
-                    addAt       :   Date.now()              
-                  });
-        }); 
-        console.log(shopcartData);  
-        
-        // Create file
-        fileAdd( id, shopcartData, "shopcart", function( err ){
-          // Error creating file
-          if( err ) {
-            res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart file creation error." } ) );  
-            return;
-          }
-        });
+                  console.log("PRODUCTS:", PRODUCTS);
 
-        // Product added
-        res.writeHead(200).end( JSON.stringify( { error : false, message : "Product added to shopcart.", shopcartData } ) );   
+                  // Check if product exists
+                  if( !PRODUCTS.find( p => p.id === id ) ){
+                    // Product not found
+                    bln_error = true;
+                  } else           
+                    // Adding product
+                    shopcartData.itens.push({
+                              productId   :   id,
+                              quantity    :   qtde,
+                              addAt       :   Date.now()              
+                            });{
+                  }
+                }); // body data
+                
+                // Check error to add products 
+                if( bln_error ){
+                  res.writeHead(404).end( JSON.stringify( { error   : true, message : "Some product added on shopcart doesn't exist." } ) );
+                  return;          
+                }
+   
+                // Create file
+                fileAdd( id, shopcartData, "shopcart", function( err ){
+                  // Error creating file
+                  if( err ) {
+                    res.writeHead(404).end( JSON.stringify( { error   : true, message : "Shopcart file creation error." } ) );  
+                    return;
+                  }
+                });
 
-      } else {
-        // No data sent
-        res.writeHead(404).end( JSON.stringify( { error   : true, message : "Product data empty." } ) );  
-      }
-            
-    });   
+                // Product added
+                res.writeHead(200).end( JSON.stringify( { error : false, message : "Product added to shopcart.", shopcartData } ) );   
+
+              } else {
+                // No data sent
+                res.writeHead(404).end( JSON.stringify( { error   : true, message : "Product data empty." } ) );  
+              }
+                    
+            });   
 
             // ------------------------------------------------     
           }
