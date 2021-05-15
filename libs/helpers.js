@@ -2,7 +2,7 @@
     Functions and helpers
 */
 
-var config = require('./../config');
+var config = require('./../libs/configs');
 var fs = require('fs');
 var path = require('path');
 var querystring = require('querystring');
@@ -363,56 +363,69 @@ function apiRequester( name, request, payload, callback, debug ){
 // Sendmail // Mailgun
 helpers.sendmail = function( userName, userEmail, subject, message, callback ){
 
-    // Payload
-    var payload = {
-        'from'    :   config.mailgun.sender,
-        'to'      :   userName + '<'+ userEmail +'>',
-        'subject' :   subject,
-        'text'    :   message
-    };    
+    // Check required parameters
+    if( !userName || !userEmail || !subject || !message ){
+        // Error
+        callback("Parameters required");
+    } else {
+        // Payload
+        var payload = {
+            'from'    :   config.mailgun.sender,
+            'to'      :   userName + '<'+ userEmail +'>',
+            'subject' :   subject,
+            'text'    :   message
+        };    
 
-    // Configure the request
-    var request = {
-      'protocol' :  'https:',
-      'hostname' :  config.mailgun.host,
-      'method'   :  'POST',
-      'auth'     :  'api:' + config.mailgun.key,
-      'path'     :  '/v3/' + config.mailgun.domain + '/messages',
-      'headers'  :  {
-        'Content-Type'      : 'application/x-www-form-urlencoded',
-        'Content-Length'    : Buffer.byteLength(querystring.stringify(payload))
-      }
-    };
-  
-    // API Request
-    apiRequester("Mailgun", request, payload, (err) => { if( err ) console.error( err ); });
+        // Configure the request
+        var request = {
+        'protocol' :  'https:',
+        'hostname' :  config.mailgun.host,
+        'method'   :  'POST',
+        'auth'     :  'api:' + config.mailgun.key,
+        'path'     :  '/v3/' + config.mailgun.domain + '/messages',
+        'headers'  :  {
+                        'Content-Type'      : 'application/x-www-form-urlencoded',
+                        'Content-Length'    : Buffer.byteLength(querystring.stringify(payload))
+                      }
+        };
+    
+        // API Request
+        apiRequester("Mailgun", request, payload, (err) => callback(err) );
+    }
 };
-// Payment // Stripe
-helpers.stripe = function( amount, currency, description, source, callback){
+// Payment Go ( Stripe and others in the future )
+helpers.payGo = function( paymentData, callback){
 
-    // Payload
-    var payload = {
-        'amount'        :   amount,
-        'currency'      :   currency,
-        'description'   :   description,
-        'source'        :   source,
-    };
+    // Check required parameters
+    // PaymentData : amount, currency, description, source
+    if( !paymentData.amount || !paymentData.description || ! paymentData.source){
+        // Error 
+        callback("Parameter required");
+    } else {
+        // Payload
+        var payload = {
+            'amount'        :   paymentData.amount,
+            'currency'      :   ( paymentData.currency || "usd" ),
+            'description'   :   paymentData.description,
+            'source'        :   paymentData.source,
+        };
 
-    // Request
-    var request = {
-      'protocol'        : 'https:',
-      'hostname'        : 'api.stripe.com',
-      'method'          : 'POST',
-      'auth'            : config.stripe.secretKey,
-      'path'            : '/v1/charges',
-      'headers'         : {
-            'Content-Type'  : 'application/x-www-form-urlencoded',
-            'Content-Length': Buffer.byteLength(querystring.stringify(payload))
-        }
-    };  
-  
-    // API Request
-    apiRequester("Stripe", request, payload, (err) => { if( err ) console.error( err ); });
+        // Request
+        var request = {
+        'protocol'        : 'https:',
+        'hostname'        : 'api.stripe.com',
+        'method'          : 'POST',
+        'auth'            : config.stripe.key,
+        'path'            : '/v1/charges',
+        'headers'         : {
+                'Content-Type'  : 'application/x-www-form-urlencoded',
+                'Content-Length': Buffer.byteLength(querystring.stringify(payload))
+            }
+        };  
+    
+        // API Request
+        apiRequester("Stripe", request, payload, (err) => callback(err) );
+    }
 };
 
 // Export

@@ -9,6 +9,7 @@ const userController        =     require('../controllers/user');
 const productController     =     require('../controllers/product');
 const shopcartController    =     require('../controllers/shopcart');
 const orderController       =     require('../controllers/order');
+const paymentController     =     require('../controllers/payment');
 
 // Container for routes
 const routers               =     {};
@@ -39,7 +40,8 @@ routers.shopcart_delete     =     (req, res, arrPath) => shopcartController.dele
 routers.order_view          =     (req, res, arrPath) => orderController.view(req, res, arrPath);
 // Order add
 routers.order_add           =     (req, res, arrPath) => orderController.add(req, res, arrPath);
-
+// Paymento
+routers.payment             =     (req, res, arrPath) => paymentController.pay(req, res, arrPath);
 
 // Export the module
 module.exports = routers;

@@ -135,8 +135,8 @@ controller.add = async ( req, res, arrPath ) => {
               } else {
                 // Shopcart ok              
 
-                // Amout order
-                let amout =  0;
+                // Amount order
+                let amount =  0;
 
                 // Apply order products
                 shopcart.itens.forEach( (prod, i) => {
@@ -160,8 +160,8 @@ controller.add = async ( req, res, arrPath ) => {
                     shopcart.itens[i].value    =  prodPrice;
                     // Total ( qtde * value )
                     shopcart.itens[i].total    =  prodtotal;
-                    // Amout
-                    amout += prodtotal;
+                    // amount
+                    amount += prodtotal;
                   }
                 });
 
@@ -182,7 +182,7 @@ controller.add = async ( req, res, arrPath ) => {
                   token,
                   user : userData,
                   shopcart,
-                  amout,
+                  amount,
                   createAt : Date.now()
                 };
 
