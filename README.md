@@ -2,7 +2,8 @@
 
 
 <h3>Set configs.js file on basepath:</h3>
-<code>
+
+```Javascript
 // Container for configs
 var enviroment = {};
 
@@ -27,4 +28,4 @@ const environmentExport =  enviroment[environmentName] || enviroment.staging;
 
 // Exports
 module.exports = environmentExport;
-</code>
+```
