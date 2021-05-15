@@ -16,10 +16,10 @@ var {
 const { PRODUCTS } = require('../controllers/product');
 
 // Container for produts / menu
-const shopcart = {}
+const controller = {}
 
 // Shopcart viewx
-shopcart.view = async ( req, res, arrPath ) => {
+controller.view = async ( req, res, arrPath ) => {
   //
   if(  controllerMethods( req, res, ["GET"] ) ){
     // Execute payload return
@@ -79,9 +79,8 @@ shopcart.view = async ( req, res, arrPath ) => {
     } 
   }
 };
-
 // Shopcart add
-shopcart.add = async ( req, res, arrPath ) => {
+controller.add = async ( req, res, arrPath ) => {
     //
     if(  controllerMethods( req, res, ["POST","PUT"] ) ){
       // Execute payload return
@@ -248,9 +247,8 @@ shopcart.add = async ( req, res, arrPath ) => {
       } 
     }
 };
-
 // Shopcart delete
-shopcart.delete = async ( req, res, arrPath ) => {
+controller.delete = async ( req, res, arrPath ) => {
   //
   if(  controllerMethods( req, res, ["DELETE"] ) ){
     // Execute payload return
@@ -384,4 +382,4 @@ shopcart.delete = async ( req, res, arrPath ) => {
 };
 
 // Export module
-module.exports = shopcart;
+module.exports = controller;

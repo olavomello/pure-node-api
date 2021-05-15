@@ -351,7 +351,7 @@ controller.delete = async ( req, res, arrPath ) => {
 
                 // Delete token files
                 arrTokens.map( (tokenId) => { 
-                  if( fileDelete(tokenId, "tokens") ){
+                if( fileDelete(tokenId, "tokens") ){
                     // Token deleted
                     // console.log("Token deleted : ", tokenId);
                   } else {

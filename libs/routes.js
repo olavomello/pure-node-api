@@ -8,6 +8,7 @@ const pingController        =     require('../controllers/ping');
 const userController        =     require('../controllers/user');
 const productController     =     require('../controllers/product');
 const shopcartController    =     require('../controllers/shopcart');
+const orderController       =     require('../controllers/order');
 
 // Container for routes
 const routers               =     {};
@@ -34,6 +35,10 @@ routers.shopcart_add        =     (req, res, arrPath) => shopcartController.add(
 routers.shopcart_update     =     (req, res, arrPath) => shopcartController.add(req, res, arrPath);
 // Shopcart delete
 routers.shopcart_delete     =     (req, res, arrPath) => shopcartController.delete(req, res, arrPath);
+// Order view
+routers.order_view          =     (req, res, arrPath) => orderController.view(req, res, arrPath);
+// Order add
+routers.order_add           =     (req, res, arrPath) => orderController.add(req, res, arrPath);
 
 
 // Export the module
