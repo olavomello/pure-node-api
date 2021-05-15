@@ -1,0 +1,507 @@
+_type: export
+__export_format: 4
+__export_date: 2021-05-15T20:40:25.214Z
+__export_source: insomnia.desktop.app:v2021.3.0
+resources:
+  - _id: req_781fcc8001d4443b966ca11cc3e9da92
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621050653499
+    created: 1618835362450
+    url: "{{ _.URLBASE }}/ping"
+    name: ping
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+    authentication: {}
+    metaSortKey: -1618835362450
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_cec23df06deb433f9fb588209e5163ab
+    parentId: null
+    modified: 1618835202259
+    created: 1618835202259
+    name: Localhost
+    description: ""
+    scope: design
+    _type: workspace
+  - _id: req_ac6615f12ef248cfa3f5770d03f4d33c
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109517853
+    created: 1620094951179
+    url: "{{ _.URLBASE }}/me/"
+    name: me
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_456aa5386f3c407bbf08fc44d3206958
+    authentication: {}
+    metaSortKey: -1616473975371
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e5e5fc381fd04b64af8f558bc116fc39
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109516054
+    created: 1620371765463
+    url: "{{ _.URLBASE }}/menu"
+    name: menu
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_456aa5386f3c407bbf08fc44d3206958
+    authentication: {}
+    metaSortKey: -1616178801986.125
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5dda4a00b9d54b8f9580e4631019f527
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109449819
+    created: 1620361615586
+    url: "{{ _.URLBASE }}/login/"
+    name: login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email"    : "olavo@fotic.com.br",
+        	"password" : "1122334455" 
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+    authentication: {}
+    metaSortKey: -1615883628601.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b0e0bec8c205456282a2afe7daf1f481
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621050092265
+    created: 1620261632681
+    url: "{{ _.URLBASE }}/user_add"
+    name: user_add
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"name" 		:	"Olavo Mello", 
+        	"email" 	:	"olavo2@agenciadix.com.br",
+        	"pass"    : "112233",
+        	"address" :	"Rua Cravinhos 834, Jardim Paulistano , Ribeirão Preto - SP - Brasil"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+    authentication: {}
+    metaSortKey: -1615293281831.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_c3720d6e62264352943b777754c04bf8
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109495763
+    created: 1620451381409
+    url: "{{ _.URLBASE }}/shopcart_add"
+    name: shopcart_add
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"itens" : [
+        		{
+        			"productId" :	1, 
+        			"quantity"  : 10
+        		},
+        		{
+        			"productId" :	2, 
+        			"quantity"  : 20
+        		},
+        		{
+        			"productId" :	3, 
+        			"quantity"  : 30
+        		}			
+        	]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_6cd4250521264b81a1d0bb3e4cbaf186
+    authentication: {}
+    metaSortKey: -1614998108446.625
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_43c90ead2aeb45af84367e212586ca88
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109498566
+    created: 1621100616700
+    url: "{{ _.URLBASE }}/order_add"
+    name: order_add
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_6cd4250521264b81a1d0bb3e4cbaf186
+      - name: ""
+        value: ""
+        description: ""
+        id: pair_de1de2c6b6f647769086229b2913818e
+    authentication: {}
+    metaSortKey: -1614979660110.0703
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_425e38710af74470977e1a5314bfc85c
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109500558
+    created: 1621100838344
+    url: "{{ _.URLBASE }}/order_view"
+    name: order_view
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_6cd4250521264b81a1d0bb3e4cbaf186
+    authentication: {}
+    metaSortKey: -1614970435941.793
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_366efb25a4ad44b9ab8658211e95f5ad
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109502357
+    created: 1621105721487
+    url: "{{ _.URLBASE }}/payment"
+    name: payment
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_6cd4250521264b81a1d0bb3e4cbaf186
+    authentication: {}
+    metaSortKey: -1614965823857.6543
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_612e90d27f7344f0a3728353e0d61a74
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109504287
+    created: 1621059959181
+    url: "{{ _.URLBASE }}/shopcart_view"
+    name: shopcart_view
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_6cd4250521264b81a1d0bb3e4cbaf186
+    authentication: {}
+    metaSortKey: -1614961211773.5156
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8e185fd0af0b4897a7a54cea020f835c
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109506112
+    created: 1621059599268
+    url: "{{ _.URLBASE }}/shopcart_add"
+    name: shopcart_update
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"itens" : [
+        		{
+        			"productId" :	3, 
+        			"quantity"  : 20
+        		}				
+        	]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_6cd4250521264b81a1d0bb3e4cbaf186
+    authentication: {}
+    metaSortKey: -1614924315100.4062
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7114549671e34baa92bfaa6ea950676d
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109507991
+    created: 1621051119930
+    url: "{{ _.URLBASE }}/shopcart_delete"
+    name: shopcart_delete
+    description: ""
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"itens" : [
+        		{
+        			"productId" :	1
+        		}
+        	]
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_6cd4250521264b81a1d0bb3e4cbaf186
+    authentication: {}
+    metaSortKey: -1614850521754.1875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_45a84453e4a841a7a347c4a32e584522
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109509769
+    created: 1620365539678
+    url: "{{ _.URLBASE }}/user_update"
+    name: user_update
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"name" 		:	"Olavo Mello Neto", 
+        	"email" 	:	"olavo@fotic.com.br",
+        	"pass"    : "1122334455",
+        	"address" :	"Rua Cravinhos 834, Jardim Paulistano , Ribeirão Preto - SP - Brasil"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_f5bdce97ae584d49a5904bdd44583a7e
+    authentication: {}
+    metaSortKey: -1614702935061.75
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7362719e95cb4fb8994fa8f09a34b9cd
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109511682
+    created: 1620367974571
+    url: "{{ _.URLBASE }}/user_delete"
+    name: user_delete
+    description: ""
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"email" 	:	"olavo2@agenciadix.com.br",
+        	"pass"    : "112233"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_94c6b3eaf070440f88894c424f61ec1a
+      - name: token
+        value: "{{ _.TOKEN }}"
+        description: ""
+        id: pair_f5bdce97ae584d49a5904bdd44583a7e
+    authentication: {}
+    metaSortKey: -1614407761676.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_1cc137b7e4a5d02a02de9faf1ac81b0871d4ec3f
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1621109489307
+    created: 1618835202422
+    name: Base Environment
+    data:
+      URLBASE: http://localhost:3000
+      TOKEN: q0thksbkmw4mlo6ydjxo
+    dataPropertyOrder:
+      "&":
+        - URLBASE
+        - TOKEN
+    color: null
+    isPrivate: false
+    metaSortKey: 1618835202422
+    _type: environment
+  - _id: jar_1cc137b7e4a5d02a02de9faf1ac81b0871d4ec3f
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1618835202426
+    created: 1618835202426
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_1f1756f0f0c84d3d9bc89457f03dea15
+    parentId: wrk_cec23df06deb433f9fb588209e5163ab
+    modified: 1618835202262
+    created: 1618835202262
+    fileName: Localhost
+    contents: ""
+    contentType: yaml
+    _type: api_spec
