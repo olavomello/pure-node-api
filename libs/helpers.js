@@ -4,6 +4,8 @@
 
 var fs = require('fs');
 var path = require('path');
+var querystring = require('querystring');
+var https = require('https');
 
 // Container for helpers
 const helpers = {}; 
@@ -285,7 +287,52 @@ helpers.uuid = function() {
     else                                        return id;
 }
 
+// Sendmail // mailgun
+helpers.sendmail = function( userName, userEmail, subject, message, callback ){
 
+    // Configs
+    var payload = {
+      'from'    :   'Mailgun Sandbox <postmaster@sandboxd315fa056beb4922a1c275adef3169e7.mailgun.org>',
+      'to'      :   userName + '<'+ userEmail +'>',
+      'subject' :   subject,
+      'text'    :   message
+    };
+    var stringPayload = querystring.stringify(payload);
+
+    // Configure the request
+    var requestDetails = {
+      'protocol' :  'https:',
+      'hostname' :  'api.mailgun.net',
+      'method'   :  'POST',
+      'auth'     :  'api:956842a909cf508f5a0002ce32b88c02-602cc1bf-022de2ac',
+      'path'     :  '/v3/sandboxd315fa056beb4922a1c275adef3169e7.mailgun.org/messages',
+      'headers'  :  {
+        'Content-Type' : 'application/x-www-form-urlencoded',
+        'Content-Length' : Buffer.byteLength(stringPayload)
+      }
+    }
+  
+    // API Request
+    var req = https.request(requestDetails,function(res){
+      // Status from request
+      var status = res.statusCode;
+      // Callback successfully if the request went through
+      if( status == 200 || status == 201 ){
+        callback(false);
+      } else {
+        // Error 
+        callback('Send mail error. Status : ' + status);
+      }
+    });
+  
+    // Bind api errors
+    req.on('error',function(e){
+      callback(e);
+    });
+  
+    req.write(stringPayload);
+    req.end();
+};
 
 // Export
 module.exports = helpers;
