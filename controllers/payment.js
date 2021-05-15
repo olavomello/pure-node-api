@@ -5,12 +5,12 @@
 var { 
     controllerMethods,
     fileRead,
-    uuid,
     fileAdd,
     fileExists,
     tokenUpdate,
     payGo,
-    sendmail
+    sendmail,
+    echo
 } = require('../libs/helpers');
 
 
@@ -73,35 +73,49 @@ controller.pay = async ( req, res, arrPath ) => {
                 if( !err ){
 
                     // Email subject
-                    var emailSubject = 'Order placed';
+                    let emailSubject  = 'Order placed';
                     // Email body
-                    var emailBody    = "Order ID : " + orderData.id + "\n Product(s): \n" + orderData.shopcart.itens + " \n Total: US$" + orderData.amout + "\n Thank you so much !";
+                    let emailBody     = "Order ID : " + orderData.id + "\nTotal: US$" + orderData.amount + "\nThank you so much !";
+
+                    // Controll email sent
+                    var blnEmailSent  = false;
 
                     // Send order by email userName, userEmail, subject, message, callback
-                    sendmail( orderData.user.name, orderData.user.email, emailSubject ,emailBody,function(err){
+                    sendmail( orderData.user.name, orderData.user.email, emailSubject , emailBody, function(err){
+      
                         if ( !err ) {
-
-                            userData.paid = true;
-
-                            _data.update('cart',orderId,userData,function(err){
-
-                                if (!err){
-                                    callback(200, {'Message': 'Order placed successfully!'});
-                                } else {
-                                    callback(500, {'Error' : 'could not update cart file to paid status'}); 
-                                }
-                            });
-                            
+                          blnEmailSent = true;
                         } else {
                           // Sendmail error
-                          res.writeHead(500).end( JSON.stringify( { error   : true, message : "Sendmail error.", err } ) );
+                          echo("Error sending email ordering to user ["+token+"]", "error");
+                          res.writeHead(500).end( JSON.stringify( { error : true, message : "Order finished but email doesn't send to user.", err } ) );
                         }
-                    });
 
+                        // Register payment 
+                        const paymentLog = {
+                          paymentData,
+                          orderData,
+                          paid : true,
+                          emailSent : blnEmailSent,
+                          createAt: Date.now()
+                        };
+
+                        // Save payment log   
+                        fileAdd(token,paymentLog,"payments", function(err){
+                          if( err ){
+                            // Error registering payment
+                            echo("Error logging payment ["+token+"]", "error");
+                          }
+                        });                    
+
+                        // Finish payment
+                        res.writeHead(200).end( JSON.stringify( { error : false, message : "Order finished successfully !", log : paymentLog } ) );                        
+                    });
                 } else {
                   // Payment error
                   res.writeHead(500).end( JSON.stringify( { error   : true, message : "Payment error :", err } ) ); 
                 }
+
               });                 
 
               // --------------------------------------------          

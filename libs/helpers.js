@@ -348,7 +348,7 @@ function apiRequester( name, request, payload, callback, debug ){
           if( hasCallback ) callback(false);
         } else {
           // Error 
-          if( hasCallback ) callback(name + '> api status error : ' + status);
+          if( hasCallback ) callback(name + ' > api status error : ' + status);
         }
     });
     
@@ -381,7 +381,7 @@ helpers.sendmail = function( userName, userEmail, subject, message, callback ){
         'protocol' :  'https:',
         'hostname' :  config.mailgun.host,
         'method'   :  'POST',
-        'auth'     :  'api:' + config.mailgun.key,
+        'auth'     :  config.mailgun.key,
         'path'     :  '/v3/' + config.mailgun.domain + '/messages',
         'headers'  :  {
                         'Content-Type'      : 'application/x-www-form-urlencoded',

@@ -11,9 +11,9 @@ enviroment.staging = {
     env     : 'staging',
     mailgun : {
       host        : 'api.mailgun.net',
-      sender      : 'Mailgun Sandbox <postmaster@sandboxc625ea4d75e34a6aa93c844bd5493a76.mailgun.org>',
-      domain      : 'sandboxc625ea4d75e34a6aa93c844bd5493a76.mailgun.org',
-      key         : '6b19a2de44b707bd199436597a6b0853-602cc1bf-309ae6ae'
+      sender      : 'Mailgun Sandbox <postmaster@sandbox95c72a03389049459febada588dac622.mailgun.org>',
+      domain      : 'sandbox95c72a03389049459febada588dac622.mailgun.org',
+      key         : 'api:b434cd11c2768b4668a26f0d7d77d739-602cc1bf-8c4885b5'
     },
     stripe : {
       key         : 'sk_test_51InChaJgJjjhnXt7lZZLdED4XnQB8bVFUhKhp8EV3yLwq0j5sULouLiPgRoHt6SuANPkflVhjF0OOKiXGmbrkpfT00EWLtqPYd'
