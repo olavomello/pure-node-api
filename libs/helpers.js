@@ -290,6 +290,9 @@ helpers.uuid = function() {
 // Sendmail // mailgun
 helpers.sendmail = function( userName, userEmail, subject, message, callback ){
 
+    // Callback check
+    const hasCallback = (callback && typeof callback === 'function');
+
     // Configs
     var payload = {
       'from'    :   'Mailgun Sandbox <postmaster@sandboxd315fa056beb4922a1c275adef3169e7.mailgun.org>',
@@ -318,16 +321,16 @@ helpers.sendmail = function( userName, userEmail, subject, message, callback ){
       var status = res.statusCode;
       // Callback successfully if the request went through
       if( status == 200 || status == 201 ){
-        callback(false);
+        if( hasCallback ) callback(false);
       } else {
         // Error 
-        callback('Send mail error. Status : ' + status);
+        if( hasCallback ) callback('Send mail error. Status : ' + status);
       }
     });
   
     // Bind api errors
     req.on('error',function(e){
-      callback(e);
+        if( hasCallback ) callback(e);
     });
   
     req.write(stringPayload);
