@@ -30,5 +30,5 @@ const environmentExport =  enviroment[environmentName] || enviroment.staging;
 module.exports = environmentExport;
 ```
 
-<h5>API usage test</h5>
-<p>Use YAML file to test on Insominia using : <b>Insomnia.yaml</b></p>
+<h2>API usage test</h2>
+<p>Use YAML file to test on Insominia using : <b><a href="https://github.com/olavomello/pure-node-api/blob/master/Insomnia.yaml">Insomnia.yaml</a></b></p>
