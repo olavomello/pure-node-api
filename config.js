@@ -8,9 +8,10 @@ var environments = {};
 environments = {
   envName : 'staging',
   mailgun : {
-    sender      : 'Mailgun Sandbox <postmaster@sandboxd315fa056beb4922a1c275adef3169e7.mailgun.org>',
-    domain      : 'sandboxd315fa056beb4922a1c275adef3169e7.mailgun.org',
-    apiKey      : 'api:956842a909cf508f5a0002ce32b88c02-602cc1bf-022de2ac'
+    host        : 'api.mailgun.net',
+    sender      : 'Mailgun Sandbox <postmaster@sandboxc625ea4d75e34a6aa93c844bd5493a76.mailgun.org>',
+    domain      : 'sandboxc625ea4d75e34a6aa93c844bd5493a76.mailgun.org',
+    key         : '6b19a2de44b707bd199436597a6b0853-602cc1bf-309ae6ae'
   },
   stripe : {
     secretKey   : 'YOUR_STRIPE_SECRET_KEY'

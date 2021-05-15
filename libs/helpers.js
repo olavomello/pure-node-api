@@ -333,9 +333,9 @@ helpers.sendmail = function( userName, userEmail, subject, message, callback ){
     // Configure the request
     var request = {
       'protocol' :  'https:',
-      'hostname' :  'api.mailgun.net',
+      'hostname' :  config.mailgun.host,
       'method'   :  'POST',
-      'auth'     :  config.mailgun.key,
+      'auth'     :  'api:' + config.mailgun.key,
       'path'     :  '/v3/' + config.mailgun.domain + '/messages',
       'headers'  :  {
         'Content-Type'      : 'application/x-www-form-urlencoded',
@@ -344,7 +344,7 @@ helpers.sendmail = function( userName, userEmail, subject, message, callback ){
     };
   
     // API Request
-    apiRequester("Mailgun", request, payload, (err) => { if( err ) console.error( err ); }, true);
+    apiRequester("Mailgun", request, payload, (err) => { if( err ) console.error( err ); });
 };
 
 // Payment // Stripe
@@ -372,7 +372,7 @@ helpers.stripe = function( amount, currency, description, source, callback){
     };  
   
     // API Request
-    apiRequester("Stripe", request, payload, (err) => { if( err ) console.error( err ); }, false);
+    apiRequester("Stripe", request, payload, (err) => { if( err ) console.error( err ); });
 };
 
 
