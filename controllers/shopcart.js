@@ -147,13 +147,13 @@ shopcart.add = async ( req, res, arrPath ) => {
                   if( !PRODUCTS.find( p => p.id == id ) ){
                     // Product not found
                     blnError = true;
-                  } else           
+                  } else {       
                     // Adding product
                     shopcartData.itens.push({
                               productId   :   id,
                               quantity    :   qtde,
                               addAt       :   Date.now()              
-                            });{
+                            });
                   }
                 }); // body data
                 
@@ -190,11 +190,13 @@ shopcart.add = async ( req, res, arrPath ) => {
                   // Add itens
                   shopcartData.itens.forEach( (prod, i) => {
                     // List prod on actual shopcart
-                    var prodIdx = shopcartOldData.itens.map( p => p.productId ).indexOf( prod.productId );
+                    var prodIdx = newShopcart.itens.map( p => p.productId ).indexOf( prod.productId );
                     // List products to add // If product exist update quantity else add product
                     if( prodIdx > -1 ){
                       // Product exists on shopcart // change quantity
-                      newShopcart.itens[i].quantity =  shopcartData.itens[prodIdx].quantity;
+                      newShopcart.itens[prodIdx].quantity  =  prod.quantity;
+                      // Add update info
+                      newShopcart.itens[prodIdx].updateAt  =   Date.now(); 
                     } else {
                       // New product / add to shopcart
                       newShopcart.itens.push(prod);
