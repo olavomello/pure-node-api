@@ -30,7 +30,5 @@ const environmentExport =  enviroment[environmentName] || enviroment.staging;
 module.exports = environmentExport;
 ```
 
-```Yaml
 <h5>API usage test</h5>
 <p>Use YAML file to test on Insominia using : <b>Insomnia.yaml</b></p>
-```
