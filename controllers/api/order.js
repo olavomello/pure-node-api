@@ -9,7 +9,7 @@ var {
     fileAdd,
     fileExists,
     tokenUpdate
-} = require('../libs/helpers');
+} = require('../../libs/helpers');
 
 // Products list
 const { PRODUCTS } = require('./product');

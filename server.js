@@ -5,29 +5,53 @@ var fs = require('fs');
 var config = require('./configs');
 var { echo } = require('./libs/helpers');
 var routes = require('./libs/routes');
+var htmlRoutes   = require('./libs/html');
 
 // Server
 const server = http.createServer( (req, res) => {
     try{
-
-        // Header
-        res.setHeader("Content-Type", "application/json");
-
         // Parse URL // ** TODO : Change func 'parse" deprecated
         var urlParse = url.parse(req.url, true);
         // Get path and adjust it
         var path = urlParse.path.toLowerCase().replace(/^\/+|\/+$/g, "");
         // Find first path
         var arrPath = path.split("/");
+        // Switcher ( api | html )
+        var isAPI    = ( arrPath[0] == "api" );
         // Endpoint 
-        var endpoint = arrPath[0];
+        var endpoint = arrPath[1];
 
         // Server response
-        if ( typeof( routes[endpoint] ) == "function" ){
-            // Route found
+        if ( isAPI && typeof( routes[endpoint] ) == "function" ){
+            // #1 :: Route found
+            echo("API > " + endpoint, "alert");
+            // Header
+            res.setHeader("Content-Type", "application/json");
+            
+            // Route
             routes[endpoint](req, res, arrPath);
+        } else if( !isAPI ){
+            // #2 :: HTML response
+
+            // Index page
+            if( !endpoint ) endpoint = "index";
+            echo("HTML > " + endpoint, "alert2");
+            // Header
+            res.setHeader("Content-Type", "text/html");            
+            
+            // HTML
+            if( htmlRoutes[endpoint] == "function" ){
+                // HTML exist
+                htmlRoutes[endpoint](req, res, arrPath);
+            } else {
+                // HTML Page not found
+                echo("HTML page not found", "error");
+                res.writeHead(404);
+                res.end();                
+            }            
         } else {
-            // Route not found
+            // #3 :: Route not found
+            echo("Invalid endpoint > " + endpoint, "error");
             res.writeHead(404);
             res.end();
         }

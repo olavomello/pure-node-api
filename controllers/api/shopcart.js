@@ -10,10 +10,10 @@ var {
     fileUpdate,
     fileExists,
     tokenUpdate
-} = require('../libs/helpers');
+} = require('../../libs/helpers');
 
 // Products list
-const { PRODUCTS } = require('../controllers/product');
+const { PRODUCTS } = require('../../controllers/api/product');
 
 // Container for produts / menu
 const controller = {}

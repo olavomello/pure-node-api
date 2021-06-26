@@ -20,21 +20,6 @@ enviroment.staging = {
     }    
 };
 
-// Production
-enviroment.production = {
-    port    : 3001,
-    env     : 'production',
-    mailgun : {
-      host        : '',
-      sender      : '',
-      domain      : '',
-      key         : ''
-    },
-    stripe : {
-      secretKey   : ''
-    }      
-};
-
 // Check .env
 const environmentName = ( typeof(process.env.NODE_ENV) == 'string' ? process.env.NODE_ENV.toLowerCase() : '' );
 const environmentExport =  enviroment[environmentName] || enviroment.staging;

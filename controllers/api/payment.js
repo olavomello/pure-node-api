@@ -11,7 +11,7 @@ var {
     payGo,
     sendmail,
     echo
-} = require('../libs/helpers');
+} = require('../../libs/helpers');
 
 
 // Container for produts / menu

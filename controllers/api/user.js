@@ -13,7 +13,7 @@ var {
         fileDelete,
         listUserToken,
         tokenUpdate
-    } = require('../libs/helpers');
+    } = require('../../libs/helpers');
 
 // Container
 const controller = {};

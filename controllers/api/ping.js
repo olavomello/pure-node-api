@@ -1,7 +1,7 @@
 /*
   Ping Controller
 */
-var { controllerMethods } = require('../libs/helpers');
+var { controllerMethods } = require('../../libs/helpers');
 
 // Container
 const controller = {};

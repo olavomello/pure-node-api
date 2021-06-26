@@ -6,7 +6,7 @@ var {
     controllerMethods,
     fileRead,
     tokenUpdate
-} = require('../libs/helpers');
+} = require('../../libs/helpers');
 
 // Container for produts / menu
 const controller = {}

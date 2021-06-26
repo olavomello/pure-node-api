@@ -4,12 +4,12 @@
 
 
 // Controllers
-const pingController        =     require('../controllers/ping');
-const userController        =     require('../controllers/user');
-const productController     =     require('../controllers/product');
-const shopcartController    =     require('../controllers/shopcart');
-const orderController       =     require('../controllers/order');
-const paymentController     =     require('../controllers/payment');
+const pingController        =     require('../controllers/api/ping');
+const userController        =     require('../controllers/api/user');
+const productController     =     require('../controllers/api/product');
+const shopcartController    =     require('../controllers/api/shopcart');
+const orderController       =     require('../controllers/api/order');
+const paymentController     =     require('../controllers/api/payment');
 
 // Container for routes
 const routers               =     {};
