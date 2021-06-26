@@ -28,6 +28,10 @@ helpers.echo = function( msg = "", status = "normal" ) {
             var color = 0;
             var bg = 3;
             break;
+        case "alert2" :
+            var color = 0;
+            var bg = 4;
+            break;                
         case "error" :
             var color = 7;
             var bg = 1;
