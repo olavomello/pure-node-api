@@ -156,7 +156,6 @@ helpers.fileUpdate = function( file, data, dir, callback ){
 }
 // File check if exists
 helpers.fileExists = function( file, dir ){
-    
     // Path
     const fullDir = path.join(__dirname,"../.data/" + dir);
     // File
@@ -431,6 +430,57 @@ helpers.payGo = function( paymentData, callback){
         apiRequester("Stripe", request, payload, (err) => callback(err) );
     }
 };
+
+// Read HTML files
+helpers.getTemplate = function( page ){
+    // Path
+    const fullDir = path.join(__dirname,"../templates/");
+    // File
+    const fullFile =  fullDir + page + ".html";
+    // Read file
+    if( fs.existsSync(fullFile) ){
+        // Add page content
+        return fs.readFileSync( fullFile );
+    } else {
+        // File not found
+        return false;
+    }
+};
+
+// get HTML Page ( formed with template )
+helpers.getPage = function( page ){
+    // User file found
+    const HEADER  = helpers.getTemplate("_header");
+    // Add default header
+    const FOOTER  = helpers.getTemplate("_footer");
+    // Page content
+    const CONTENT = helpers.getTemplate(page);
+    // Check files
+    if( HEADER && FOOTER && CONTENT ){
+        // Add page final content
+        return ( HEADER + CONTENT + FOOTER);
+    } else {
+        // Template error
+        return false;
+    }
+};
+
+// Check static file
+helpers.staticFile = function( file, dir ){
+    
+    // Path
+    const fullDir = path.join(__dirname,"../public/" + dir);
+    // File
+    const fullFile =  fullDir +"/"+ file;
+    // Check if exists
+    if ( content = fs.readFileSync(fullFile) ){
+        // File exist
+        return content;
+    } else {
+        // File notfound
+        return false;
+    }
+}
 
 // Export
 module.exports = helpers;
