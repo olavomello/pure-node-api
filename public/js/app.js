@@ -78,3 +78,30 @@ app.client.request = function(headers,path,method,queryStringObject,payload,call
   xhr.send(payloadString);
 
 };
+
+// Check login // TODO
+function checkUserLogged(){
+  // Body
+  const body = document.body;
+
+  // Logged
+  var isLogged = false;
+
+  // Add body class
+  if( isLogged ){
+    // User logged
+    body.className = body.className + "userLogged";
+  } else {
+    // User not logged
+    body.className = body.className.replace("userLogged","");
+  }
+} 
+
+// Initialization
+function pageStart(){
+  console.log("Page load. App started...");
+  checkUserLogged();
+}
+
+// Start on body load
+window.onload = pageStart;

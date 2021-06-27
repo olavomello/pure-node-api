@@ -7,15 +7,53 @@ body{
 }
 /* Links */
 a{
+    color:#f37022;
     -webkit-transition: all .3s ease-in-out;
     -moz-transition:    all .3s ease-in-out;
     -o-transition:      all .3s ease-in-out;
     -ms-transition:     all .3s ease-in-out;
     transition:         all .3s ease-in-out;
 }
+a:hover{
+    color:#000;
+}
 /* Titles */
 h1, h2, h3{
     letter-spacing:-1px;
+}
+
+/* Form controlls  */
+input, select, textarea, button {
+    padding: 15px;
+    border: 1px solid #cccc;
+    border-radius: 3px;
+    box-shadow: 0 0 10px #0000001c;
+    color:#f37022;
+    font-size:14px;
+    -webkit-transition: all .3s ease-in-out;
+    -moz-transition:    all .3s ease-in-out;
+    -o-transition:      all .3s ease-in-out;
+    -ms-transition:     all .3s ease-in-out;
+    transition:         all .3s ease-in-out;   
+    outline: none; 
+    margin: 2px;
+}
+input, select, textarea{
+    flex: 1;
+    display: flex;
+    width:400px;
+}
+input:hover, select:hover, textarea:hover{
+    border-color:#f37022;
+}
+button{
+    cursor:pointer;
+    background:#f37022;
+    color:#fff;
+    font-weight: bold;
+}
+button:hover{
+    background:#ffab2c;
 }
 
 /* Header */
@@ -26,6 +64,7 @@ h1, h2, h3{
     display: flex;
     flex: 1;
     justify-content: space-between;
+    box-shadow: inset 0px -20px 20px #00000021;
 }
     .header img{
         max-height: 200px;
@@ -57,7 +96,36 @@ nav.menu {
         color:#fff;
         background: #000;
         box-shadow: 0px 0px 2px #0000008f;
+        transform: rotate(10deg) scale(1.2);
     }
+    /* Shopcart link */
+    nav.menu a.mnuShopcart {
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+    }
+    nav.menu a.mnuShopcart:hover {
+        background: transparent;
+        box-shadow: none;
+        padding: 0;
+        transform: rotate(10deg) scale(1.5);
+    }
+        nav.menu a.mnuShopcart img{
+            width:60px;
+        }
+    /* Menu itens : user logged */
+    body nav.menu .mnuLogout, 
+    body nav.menu .mnuAccount {
+        display: none;
+    }
+    body.userLogged nav.menu .mnuSignup,
+    body.userLogged nav.menu .mnuLogin{
+        display: none;
+    }
+    body.userLogged nav.menu .mnuLogout, 
+    body.userLogged nav.menu .mnuAccount {
+        display: flex;
+    }    
 
 /* Content */
 .wrapper {
