@@ -13,6 +13,10 @@ a{
     -ms-transition:     all .3s ease-in-out;
     transition:         all .3s ease-in-out;
 }
+/* Titles */
+h1, h2, h3{
+    letter-spacing:-1px;
+}
 
 /* Header */
 .header{
@@ -62,6 +66,16 @@ nav.menu {
     margin: 0;
     padding: 60px;
 }
+    .content{
+        display: flex;
+        flex:1;
+    }
+        /*** PAGES ***/
+        .pageHome{
+            text-align: center;
+            flex: 1;
+        }
+
 
 /* Footer */
 .footer .copyright {

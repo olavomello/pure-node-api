@@ -465,6 +465,10 @@ helpers.getPage = function( page ){
     }
 };
 
+// Content Replace variables
+// helpers.pageVars = function( content ){  
+// };
+
 // Check static file
 helpers.staticFile = function( file, dir ){
     

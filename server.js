@@ -85,6 +85,7 @@ const server = http.createServer( (req, res) => {
                     'jpg': 'image/jpg',
                     'gif': 'image/gif',
                     'svg': 'image/svg+xml',
+                    'ico': 'image/x-icon',
                     'wav': 'audio/wav',
                     'mp4': 'video/mp4',
                     'woff': 'application/font-woff',
