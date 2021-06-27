@@ -7,10 +7,10 @@
 const indexController        =     require('../controllers/html/index');
 
 // Container for routes
-const htmlRoutes                  =     {};
+const htmlRoutes             =     {};
 
-// Ping
-htmlRoutes.index                   =     (req, res, arrPath) => indexController.index(req, res, arrPath);
+// Index page
+htmlRoutes.index             =     (req, res, arrPath) => indexController.index(req, res, arrPath);
 
 // Export the module
 module.exports = htmlRoutes;

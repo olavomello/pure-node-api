@@ -17,9 +17,17 @@ const server = http.createServer( (req, res) => {
         // Find first path
         var arrPath = path.split("/");
         // Switcher ( api | html )
-        var isAPI    = ( arrPath[0] == "api" );
-        // Endpoint 
-        var endpoint = arrPath[1];
+        if( arrPath[0] == "api" ){
+            // API
+            var isAPI = true;
+            // Endpoint : api
+            var endpoint = arrPath[1];            
+        } else {
+            // HTML
+            var isAPI = false;
+            // Endpoint : page
+            var endpoint = arrPath[0];            
+        }
 
         // Server response
         if ( isAPI && typeof( routes[endpoint] ) == "function" ){
@@ -27,20 +35,19 @@ const server = http.createServer( (req, res) => {
             echo("API > " + endpoint, "alert");
             // Header
             res.setHeader("Content-Type", "application/json");
-            
             // Route
             routes[endpoint](req, res, arrPath);
         } else if( !isAPI ){
             // #2 :: HTML response
-
-            // Index page
+            
+            // If no endpoint page go to Index page
             if( !endpoint ) endpoint = "index";
+
             echo("HTML > " + endpoint, "alert2");
             // Header
             res.setHeader("Content-Type", "text/html");            
-            
             // HTML
-            if( htmlRoutes[endpoint] == "function" ){
+            if( typeof( htmlRoutes[endpoint] ) == "function" ){
                 // HTML exist
                 htmlRoutes[endpoint](req, res, arrPath);
             } else {
