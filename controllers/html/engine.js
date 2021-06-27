@@ -27,6 +27,24 @@ controller.index = async ( req, res, arrPath ) => {
   }
 };
 
+// Signup
+controller.signup = async ( req, res, arrPath ) => {
+  // 
+  if(  controllerMethods( req, res, ["GET"] ) ){
+    // Execute HTML page
+    const pageName = "signup";
+
+    if( page = getPage( pageName ) ){
+        // Page ok
+        res.writeHead( 200 ).end( page ); 
+    } else {
+        // Template error
+        res.writeHead( 500 ).end( "Error reading " + pageName + " template." );  
+    }
+  }
+};
+
+
 // Account
 controller.account = async ( req, res, arrPath ) => {
   // 
@@ -45,7 +63,7 @@ controller.account = async ( req, res, arrPath ) => {
 };
 
 // Login
-controller.account = async ( req, res, arrPath ) => {
+controller.login = async ( req, res, arrPath ) => {
   // 
   if(  controllerMethods( req, res, ["GET"] ) ){
     // Execute HTML page
@@ -62,7 +80,7 @@ controller.account = async ( req, res, arrPath ) => {
 };
 
 // Logout
-controller.account = async ( req, res, arrPath ) => {
+controller.logout = async ( req, res, arrPath ) => {
   // 
   if(  controllerMethods( req, res, ["GET"] ) ){
     // Execute HTML page
@@ -79,7 +97,7 @@ controller.account = async ( req, res, arrPath ) => {
 };
 
 // Shopcart
-controller.account = async ( req, res, arrPath ) => {
+controller.shopcart = async ( req, res, arrPath ) => {
   // 
   if(  controllerMethods( req, res, ["GET"] ) ){
     // Execute HTML page

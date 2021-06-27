@@ -1,7 +1,7 @@
 // Libs
 var http = require('http');
 var url = require('url');
-var fs = require('fs');
+// var fs = require('fs');
 var config = require('./configs');
 var { echo, staticFile } = require('./libs/helpers');
 var routes = require('./libs/routes');
@@ -56,7 +56,6 @@ const server = http.createServer( (req, res) => {
             
             // If no endpoint page go to Index page
             if( !endpoint ) endpoint = "index";
-
             echo("HTML > " + endpoint, "alert2");
             // Header
             res.setHeader("Content-Type", "text/html");            
@@ -94,14 +93,14 @@ const server = http.createServer( (req, res) => {
                     'otf': 'application/font-otf'
                 };
                 var contentType = mimeTypes[fileExt] || 'application/octet-stream';                
-                echo("Public file > " + filePath + "/" + file + " > Content-Type : " + contentType, "alert2");
+                // echo("Public file > " + filePath + "/" + file + " > Content-Type : " + contentType, "alert2");
                 
                 //res.setHeader("Content-Type", contentType);
                 res.writeHead(200);
                 res.end(fileContent);  
             } else {
                 // Static file error
-                echo("Public file not found > " + filePath + "/" + file, "error");
+                // echo("Public file not found > " + filePath + "/" + file, "error");
                 res.writeHead(404);
                 res.end();                
             }
