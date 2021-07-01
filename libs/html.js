@@ -16,6 +16,7 @@ htmlRoutes.signup            =     (req, res, arrPath) => engineController.signu
 htmlRoutes.login             =     (req, res, arrPath) => engineController.login(req, res, arrPath);
 htmlRoutes.logout            =     (req, res, arrPath) => engineController.logout(req, res, arrPath);
 htmlRoutes.shopcart          =     (req, res, arrPath) => engineController.shopcart(req, res, arrPath);
+htmlRoutes.menu              =     (req, res, arrPath) => engineController.menu(req, res, arrPath);
 
 // Export the module
 module.exports = htmlRoutes;

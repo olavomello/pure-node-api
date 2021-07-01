@@ -47,7 +47,7 @@ const server = http.createServer( (req, res) => {
                 routes[endpoint](req, res, arrPath);
             } else {
                 // HTML Page not found
-                echo("HTML page not found", "error");
+                echo("HTML page not found ["+endpoint+"]", "error");
                 res.writeHead(404);
                 res.end();                
             } 

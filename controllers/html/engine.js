@@ -62,6 +62,23 @@ controller.account = async ( req, res, arrPath ) => {
   }
 };
 
+// Menu
+controller.menu = async ( req, res, arrPath ) => {
+  // 
+  if(  controllerMethods( req, res, ["GET"] ) ){
+    // Execute HTML page
+    const pageName = "menu";
+
+    if( page = getPage( pageName ) ){
+        // Page ok
+        res.writeHead( 200 ).end( page ); 
+    } else {
+        // Template error
+        res.writeHead( 500 ).end( "Error reading " + pageName + " template." );  
+    }
+  }
+};
+
 // Login
 controller.login = async ( req, res, arrPath ) => {
   // 

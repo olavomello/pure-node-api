@@ -56,6 +56,37 @@ button:hover{
     background:#ffab2c;
 }
 
+/* Scrolls */
+::-webkit-scrollbar{
+	width: 12px;
+	background-color: #F5F5F5;
+	/* Transition */
+	-webkit-transition: all 0.3s ease-in-out;	
+	transition: all 0.3s ease-in-out;	
+}
+::-webkit-scrollbar-thumb {
+	border-radius: 0px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #555;
+}
+::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 0px;
+	background-color: #F5F5F5;
+	cursor:default;
+	/* Transition */
+	-webkit-transition: all 0.3s ease-in-out;	
+	transition: all 0.3s ease-in-out;		
+}
+
+hr {
+    height: 1px;
+    border: 0;
+    background: #e2e2e2;
+    padding: 0;
+    margin: 50px 0px;
+}
+
 /* Header */
 .header{
     background: #fffdc8 url(../assets/headerBg.png);
@@ -118,12 +149,12 @@ nav.menu {
     body nav.menu .mnuAccount {
         display: none;
     }
-    body.userLogged nav.menu .mnuSignup,
-    body.userLogged nav.menu .mnuLogin{
+    body.loggedin nav.menu .mnuSignup,
+    body.loggedin nav.menu .mnuLogin{
         display: none;
     }
-    body.userLogged nav.menu .mnuLogout, 
-    body.userLogged nav.menu .mnuAccount {
+    body.loggedin nav.menu .mnuLogout, 
+    body.loggedin nav.menu .mnuAccount {
         display: flex;
     }    
 

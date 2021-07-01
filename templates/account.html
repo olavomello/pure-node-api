@@ -1,13 +1,80 @@
     <!-- Account : start -->
     <div class="pageAccount">
-        <h1>Account</h1>
-        <p>Fill the fields below to create your account and ask our pizzas.</p>
-        <form>
-            <input type="text" placeholder="Name"/>
-            <input type="email" placeholder="Your best E-mail"/>
-            <input type="password" placeholder="A hard password"/>
-            <input type="text" placeholder="Your full address"/>
-            <button>Continue ></button>
-        </form>
+        <h1 class="m-0">Your Account</h1>
+        <section class="edit" id="editAccount">
+          <h2>Edit Account</h2>
+          <p>Edit your account basic information</p>
+          <div class="form-response" id="editResponse"></div>
+          <form class="form-horizontal" id="frmAccEdit" name="frm_acc_edit" action="/user_update" method="PUT" novalidate>
+          <input type="hidden" name="_method" value="PUT"/>
+              <div class="form-row">
+                <label for="">First Name</label>
+                <input type="text" name="firstName" value="">
+                <p class="error"></p>
+              </div>
+              <div class="form-row">
+                <label for="">Last Name</label>
+                <input type="text" name="lastName" value="">
+                <p class="error"></p>
+              </div>
+              <div class="form-row">
+                <label for="">Email</label>
+                <input type="email" name="email" value="" disabled>
+                <p class="error"></p>
+              </div>
+              <div class="form-row">
+                <label for="">Address</label>
+                <input type="text" name="address" value="">
+                <p class="error"></p>
+              </div>
+              <div class="form-row">
+                <label for="">City</label>
+                <input type="text" name="city" value="">
+                <p class="error"></p>
+              </div>
+              <div class="form-row">
+                <label for="">State</label>
+                <input type="text" name="state" value="">
+                <p class="error"></p>
+              </div>
+              <div class="form-row">
+                <label for="">Postal Code</label>
+                <input type="text" name="postalCode" value="">
+                <p class="error"></p>
+              </div>
+              <div class="form-row">
+              <button type="submit" name="btnSubmit" class="btn btn-submit">Save Changes</button>
+              </div>
+            </form>
+            <hr>
+            <h2>Change Password</h2>
+            <div class="form-response" id="passwordResponse"></div>
+            <form class="form-horizontal" id="frmAccPassword" name="frm_acc_password" method="PUT" action="/api/user_update" novalidate>
+            <input type="hidden" name="_method" value="PUT"/>
+            <div class="form-row">
+              <label for="">New Password</label>
+              <input type="password" name="password" value="">
+                <p class="error"></p>
+            </div>
+            <div class="form-row">
+              <input type="hidden" name="email" />
+              <button type="submit" name="btnSubmit" class="btn btn-submit">Change Password</button>
+            </div>
+          </form>
+        </section>
+        <hr>
+        <section class="delete" id="deleteAccount">
+          <h2>Delete Account</h2>
+          <p class="alert alert-danger">
+            Permanent delete your account ? This action cannot be reverted.
+          </p>
+          <form class="form-horizontal" id="frmAccDelete" name="frm_acc_delete" action="/api/user_delete" method="DELETE">
+            <input type="hidden" name="_method" value="DELETE"/>
+            <div class="form-row">
+                <input type="hidden" name="email" />
+                <button type="submit" name="deleteAccount" class="btn btn-delete">Delete Account</button>
+            </div>
+          </form>
+        </section>
     </div>
     <!-- Account : end -->

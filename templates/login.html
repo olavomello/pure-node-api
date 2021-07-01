@@ -1,11 +1,20 @@
-    <!-- Login : start -->
-    <div class="pageLogin">
-        <h1>Login</h1>
-        <p>Access your account and enjoy best pizzas ever.</p>
-        <form>
-            <input type="email" placeholder="Your e-mail"/>
-            <input type="password" placeholder="Your password"/>
-            <button>Enter now !</button>
-        </form>
-    </div>
-    <!-- Login : end -->
+<div class="pageLogin">
+    <h1>Welcome back !</h1>
+    <p>Don't have an account? <a href="/signup">sign up now</a></p>
+    <div class="form-response"></div>
+    <form class="form-horizontal" id="frmLogin" name="frm_login" method="POST" action="/api/login" novalidate>
+        <div class="form-row">
+            <label>Email</label>
+            <input type="email" name="email" placeholder="Insert your email account">
+            <p class="error"></p>
+        </div>
+        <div class="form-row">
+            <label>Password</label>
+            <input type="password" name="password" placeholder="Type your password">
+            <p class="error"></p>
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-submit" name="submit" id="btnSubmit">Log in</button>
+        </div>
+    </form>
+</div>
