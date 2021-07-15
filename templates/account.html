@@ -6,7 +6,7 @@
           <p>Edit your account basic information</p>
           <div class="form-response" id="editResponse"></div>
           <form class="form-horizontal" id="frmAccEdit" name="frm_acc_edit" action="/user_update" method="PUT" novalidate>
-          <input type="hidden" name="_method" value="PUT"/>
+              <input type="hidden" name="_method" value="PUT"/>
               <div class="form-row">
                 <label for="">First Name</label>
                 <input type="text" name="firstName" value="">
@@ -50,17 +50,17 @@
             <h2>Change Password</h2>
             <div class="form-response" id="passwordResponse"></div>
             <form class="form-horizontal" id="frmAccPassword" name="frm_acc_password" method="PUT" action="/api/user_update" novalidate>
-            <input type="hidden" name="_method" value="PUT"/>
-            <div class="form-row">
-              <label for="">New Password</label>
-              <input type="password" name="password" value="">
-                <p class="error"></p>
-            </div>
-            <div class="form-row">
-              <input type="hidden" name="email" />
-              <button type="submit" name="btnSubmit" class="btn btn-submit">Change Password</button>
-            </div>
-          </form>
+              <input type="hidden" name="_method" value="PUT"/>
+              <div class="form-row">
+                <label for="">New Password</label>
+                <input type="password" name="password" value="">
+                  <p class="error"></p>
+              </div>
+              <div class="form-row">
+                <input type="hidden" name="email" />
+                <button type="submit" name="btnSubmit" class="btn btn-submit">Change Password</button>
+              </div>
+            </form>
         </section>
         <hr>
         <section class="delete" id="deleteAccount">

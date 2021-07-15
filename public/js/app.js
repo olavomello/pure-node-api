@@ -53,9 +53,13 @@ app.client.request = (path, method, queryStringObject, payload, callback) => {
     options.body =  JSON.stringify(payload);
   }
 
-  fetch(requestUrl, options)
-    .then(res => res.json().then(data => callback(res.status, data)))
-    .catch(error => console.error('Error:', error));
+  try{
+    fetch(requestUrl, options)
+      .then(res => res.json().then(data => callback(res.status, data)))
+      .catch(error => console.error('Error:', error));
+  } catch( err ){
+    console.error(err);
+  }
 };
 
 /**
@@ -723,12 +727,11 @@ app.validateForm = (elements) => {
 app.formResponseProcessor = (formId, requestPayload, responsePayload) => {
   switch(formId) {
     case 'frmSignup':
-        const { email, password } = requestPayload;
-        const newPayload = {
+        var { email, password } = requestPayload;
+        var newPayload = {
           email,
           password
         };
-
         app.client.request('/api/login', 'POST', undefined, newPayload, (statusCode, responsePayload) => {
            // Display an error on the form if needed.
            if(statusCode !== 200) {
@@ -742,9 +745,23 @@ app.formResponseProcessor = (formId, requestPayload, responsePayload) => {
         });
     break;
     case 'frmLogin':
-      app.setSessionToken(responsePayload);
-      app.getCartData();
-      window.location = '/menu';
+      var { email, password } = requestPayload;
+      var newPayload = {
+        email,
+        password
+      };
+      app.client.request('/api/login', 'POST', undefined, newPayload, (statusCode, responsePayload) => {
+         // Display an error on the form if needed.
+         if(statusCode !== 200) {
+            // Set the formError field with the error text.
+             app.formErrorResponse(statusCode, responsePayload);
+         } else {
+           // If success, set the token and redirect the user.
+           app.setSessionToken(responsePayload);
+           app.getCartData();
+           window.location = '/menu';
+         }
+      });      
     break;
     case 'frmAccEdit':
       const elDiv = document.getElementById('editResponse')
@@ -767,18 +784,9 @@ app.formResponseProcessor = (formId, requestPayload, responsePayload) => {
       if(!elResponseDiv.hasChildNodes()) {
           elResponseDiv.appendChild(elPara);
       }
-
-      setTimeout(()=> {
-        app.setSessionToken(false);
-        app.setLoggedInClass(false);
-        app.setSessionCart(false);
-        window.location = '/login';
-      }, 10000);
     break;
     case 'frmAccDelete':
-      app.setLoggedInClass(false);
       app.setSessionToken(false);
-      app.setSessionCart(false);
       window.location = '/account/deleted';
     break;
     case 'frmOrder':
@@ -844,43 +852,55 @@ app.logUserOut = () => {
 
     app.client.request('/api/login', 'DELETE', queryStringObject, undefined, (statusCode, responsePayload) => {
       if(statusCode == 200) {
-        app.setSessionCart(false);
         app.setSessionToken(false);
-        app.setLoggedInClass(false);
-
         window.location = '/';
       }
     });
   }
 };
 
-/**
- * Log out button event.
- */
-app.btnLogoutEvent = () => {
-    document.getElementById('logout').addEventListener('click', (e) => {
-      e.preventDefault();
-      app.logUserOut();
-    });
-};
-
+// TOKEN
+var _TOKEN = "";
 /**
  * Get session token from localStorage.
  */
 app.getSessionToken = () => {
-  const tokenString = localStorage.getItem('token');
+  
+  // Token string
+  _TOKEN = localStorage.getItem('token');
 
-  if(typeof(tokenString) == 'string') {
-      const token = JSON.parse(tokenString);
+  if( typeof(_TOKEN) == 'string' && _TOKEN && _TOKEN != 'false' ) {
+      const token = JSON.parse(_TOKEN);
+      console.log("Token obj", token);
       app.config.sessionToken = token;
 
       try {
-        if(typeof(token) == 'object') app.setLoggedInClass(true);
-        else app.setLoggedInClass(false);
+        if(typeof(token) == 'object')   {
+          // Token OK
+          app.setLoggedInClass(true);
+
+
+          // Check token error
+          if( msg = token.message ){
+            // Error
+            alert(msg);
+            app.setSessionToken(false);
+            console.log("Login error !");
+          } else {
+            // Ok
+            app.setSessionToken(token);
+            console.log("Login successfully !");
+          }
+        } else {
+          app.setSessionToken(false);
+          console.log("Login error !");
+        }
       } catch (e) {
-        app.config.sessionToken = false;
-        app.setLoggedInClass(false);
+        app.setSessionToken(false);
       }
+  } else {
+    app.setSessionToken(false);
+    console.log("Token empty !");
   }
 };
 
@@ -901,13 +921,25 @@ app.setLoggedInClass = (isLoggedIn) => {
  * @param {token} object - session token object (email, tokenId)
  */
 app.setSessionToken = (token) => {
+ 
+  if( token && token != "false" ){
+    console.log("Token on !");
+    // Token on
+    app.config.sessionToken = token;
+    _TOKEN = JSON.stringify(token);
+    localStorage.setItem('token', _TOKEN);
 
-  app.config.sessionToken = token;
-  const tokenString = JSON.stringify(token);
-  localStorage.setItem('token', tokenString);
-
-  if(typeof(token) == 'object') app.setLoggedInClass(true);
-  else app.setLoggedInClass(false);
+    if(typeof(token) == 'object') app.setLoggedInClass(true);
+    else app.setLoggedInClass(false);
+  } else {
+    // Token off
+    console.log("Token off !");
+    app.setSessionCart(false);
+    app.setLoggedInClass(false);
+    app.config.sessionToken = false;
+    token = _TOKEN = "";    
+    
+  }
 };
 
 /**
@@ -915,6 +947,9 @@ app.setSessionToken = (token) => {
  * @param {callback} function -
  */
 app.renewToken = (callback) => {
+
+  if( !_TOKEN ) return;
+
   let { sessionToken } = app.config;
   sessionToken = typeof(sessionToken) == 'object' ? sessionToken : false;
 
@@ -963,13 +998,16 @@ app.tokenRenewalLoop = () => {
   }, 1000 * 60);
 };
 
+// Logout
+function logout(){
+  app.setSessionToken(false);
+  window.location = "/";
+}
+
 /** Initialize the app. */
 app.init = () => {
   // bind forms.
   app.bindAllForms();
-
-  // Bind to log out button.
-  app.btnLogoutEvent();
 
   // Get the token from localstorage.
   app.getSessionToken();

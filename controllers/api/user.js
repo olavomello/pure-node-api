@@ -36,19 +36,18 @@ controller.get = async ( req, res, arrPath ) => {
         // Check token expiration
         if( userLogged.expire < Date.now()) {
           // Token expired
-          res.writeHead( 404 ).end( JSON.stringify( { error : false, message : "Token expired. Please do login again."} ) );            
+          res.writeHead( 404 ).end( JSON.stringify( { error : true, message : "Token expired. Please do login again."} ) );            
         } else {
           // Token ok and User exist
-
           // Update user token
           tokenUpdate(req);
 
           // Return
-          res.end( JSON.stringify(userLogged));          
+          res.end( JSON.stringify(userLogged) );          
         }
       } else {
         // User does not exist
-        res.writeHead( 200 ).end( JSON.stringify( { error : false, message : "User not found"} ) );        
+        res.writeHead( 200 ).end( JSON.stringify( { error : true, message : "User not found or invalid login !"} ) );        
       }
     } else {
       // Token does not passed
@@ -268,7 +267,7 @@ controller.login = async ( req, res, arrPath ) => {
               });              
 
               // Return              
-              res.writeHead(200).end( JSON.stringify( { error   : false, message : "Login successful", userLogged } ) ); 
+              res.writeHead(200).end( JSON.stringify( { error   : false, message : "", data : userLogged } ) ); 
               return;
             } else {
               // Invalid login
@@ -277,7 +276,7 @@ controller.login = async ( req, res, arrPath ) => {
             }            
         } else {
           // User does not exist
-          res.writeHead( 200 ).end( JSON.stringify( { error : false, message : "User not found"} ) );        
+          res.writeHead( 200 ).end( JSON.stringify( { error : true, message : "User not found"} ) );        
         }
       } else {
         // User does not exist // Invalid email

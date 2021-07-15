@@ -174,7 +174,11 @@ nav.menu {
             text-align: center;
             flex: 1;
         }
-
+        
+/* Form error */
+.error {
+    color: #f00;
+}
 
 /* Footer */
 .footer .copyright {
