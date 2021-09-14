@@ -119,7 +119,8 @@ const server = http.createServer( (req, res) => {
         res.writeHead(404);
         const payload = {
             error   : true,
-            status  : "Invalid request"
+            status  : "Invalid request",
+            err
           }
         res.end( JSON.stringify( payload ) );    
     }

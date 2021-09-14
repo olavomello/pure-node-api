@@ -1,0 +1,98 @@
+[
+    {
+      "id": "281967",
+      "name": "Pizza de Morango com Nutella Original",
+      "description": "Pera... não precisa dar chilique ! É só pedir que a gente entrega rapidinho e no capricho. Nossa deliciosa pizza de Morango com Nutella, feita com massa fresquinha morangos frescos, Nutella original e flocos de arroz crocantes finalizam esta maravilhosa sobremesa. Precisa descrever algo mais ? :)",
+      "image": "https://paradisepizzaria.com.br/site/img/produtos/281967_1_g.png",
+      "prices": [
+        {
+          "pan": "large",
+          "price": 45.00
+        },
+        {
+          "pan": "small",
+          "price": 31.00
+        }
+      ]
+    },
+    {
+      "id": "281968",
+      "name": "Pizza de Banana com Nutella Original",
+      "description": "Massa levinha, Bananas fresquinhas, Nutella Original e flocos de arroz crocantes fazem de nossa deliciosa Pizza de Banana com Nutella a sobremesa perfeita. ",
+      "image": "https://paradisepizzaria.com.br/site/img/produtos/281968_1_g.png",
+      "prices": [
+        {
+          "pan": "large",
+          "price": 45.00
+        },
+        {
+          "pan": "small",
+          "price": 31.00
+        }
+      ]
+    }, 
+    {
+      "id": "281351",
+      "name": "Pizza Nhá Benta",
+      "description": "Aos fanáticos por chocolate apresentamos nossa deliciosa Nhá Benta. Feita com massa levinha, chocolate ao leite de primeira qualidade, deliciosas faixas de marshmallow e gotas de chocolate ao leite dão o toque final nessa delícia. É provar e se apaixonar :)",
+      "image": "https://paradisepizzaria.com.br/site/img/produtos/281351_1_g.png",
+      "prices": [
+        {
+          "pan": "large",
+          "price": 42.00
+        },
+        {
+          "pan": "small",
+          "price": 31.00
+        }
+      ]
+    },  
+    {
+      "id": "278362",
+      "name": "Pizza de Chocolate Lacta 5star",
+      "description": "A sensacional Pizza de Chocolate Lacta 5Star que você só encontra aqui. Elaborada através de sugestões e votos de nossos clientes é uma pizza sem igual. Feita com massa levinha, chocolate ao leite, pedaços deliciosos de chocolate Lacta 5star e flocos de arroz adicionadas na medida certa.",
+      "image": "https://paradisepizzaria.com.br/site/img/produtos/278362_1_g.png",
+      "prices": [
+        {
+          "pan": "large",
+          "price": 39.00
+        },
+        {
+          "pan": "small",
+          "price": 28.00
+        }
+      ]
+    }, 
+    {
+      "id": "282362",
+      "name": "Pizza Romeu e Julieta - Cream cheese com Goiabada",
+      "description": "A pizza dos apaixonados <3. Nossa deliciosa Romeu e Julieta é feita com massa levinha e macia, tiras de goiabada e cream cheese. Experimente e apaixone-se !",
+      "image": "https://paradisepizzaria.com.br/site/img/produtos/282362_1_g.png",
+      "prices": [
+        {
+          "pan": "large",
+          "price": 44.00
+        },
+        {
+          "pan": "small",
+          "price": 29.00
+        }
+      ]
+    }, 
+    {
+      "id": "281475",
+      "name": "Pizza de Brigadeiro Artesanal com Cerejas",
+      "description": "Muito mais do que uma pizza, um sonho em cada fatia. Nossa deliciosa Pizza de Brigadeiro Artesanal com Cerejas é feita com massa fresca fininha, brigadeiro de panela, granulado de chocolate ao leite e cerejas. Se ainda não provou não sabe o que está perdendo, se já provou e se apaixonou, fique a vontade em pedir novamente :)",
+      "image": "https://paradisepizzaria.com.br/site/img/produtos/281475_1_g.png",
+      "prices": [
+        {
+          "pan": "large",
+          "price": 45.00
+        },
+        {
+          "pan": "small",
+          "price": 30.00
+        }
+      ]
+    }        
+  ]

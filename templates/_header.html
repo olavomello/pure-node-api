@@ -6,19 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <base href="public/"/>
     <title>Pizza Pizza Delivery</title>
-    <meta name="description" content="{head.description} "/>
-    <link rel="icon" type="image/x-ico" href="assets/favicon.ico"/>
-    <script type="text/javascript" src="js/app.js" charset="utf-8"></script>
-    <link rel="stylesheet" type="text/css" href="css/app.css"/>
+    <link rel="icon" type="image/x-ico" href="/public/assets/favicon.ico"/>
+    <script type="text/javascript" src="/public/js/app.js" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="/public/css/app.css"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
 </head>
-<body>
+<body id="{body.id}">
     <!-- Header : start -->
     <div class="header">
         <a href="/" alt="Home">
-            <img src="assets/logo.png" alt="Pizza Pizza Delivery"/>
+            <img src="/public/assets/logo.png" alt="Pizza Pizza Delivery"/>
         </a>
         <!-- Menu : start -->
         <nav class="menu">
@@ -27,7 +26,7 @@
             <a href="/login"    class="mnuLogin"    >               Login           </a>
             <a href="/account"  class="mnuAccount"  >               My Account      </a>
             <a href="/logout"   class="mnuLogout" id="btLogout"   >   Logout          </a>
-            <a href="/shopcart" class="mnuShopcart" >   <img src="assets/iconBag.png" alt="Shopcart"/></a>
+            <a href="/shopcart" class="mnuShopcart" >   <img src="/public/assets/iconBag.png" alt="Shopcart"/></a>
         </nav>
         <!-- Menu : end -->
     </div>

@@ -175,6 +175,54 @@ nav.menu {
             flex: 1;
         }
         
+/* View Pizzas */
+section.item {
+    float: left;
+    width: 25%;
+    display: block;
+    overflow: hidden;
+    margin: 0px 50px;
+    padding-bottom: 20px;
+    -webkit-transition: all 0.3s ease-in-out;
+    -moz-transition:    all 0.3s ease-in-out;
+    -o-transition:      all 0.3s ease-in-out;
+    -ms-transition:     all 0.3s ease-in-out;
+    transition:         all 0.3s ease-in-out;   
+    cursor:pointer; 
+}
+section.item:hover {
+    box-shadow: 0 0 20px #0000001f;
+    border-radius: 4px;
+}
+    section.item .featured-img img {
+        width: 100%;
+    }
+    section.item .featured-img {
+        height: 400px;
+        margin: 20px;
+    }    
+    section.item h3 {
+        height: 70px;
+    }    
+    .btn-order:hover {
+        color: #fff;
+        background: #f37022;
+    }
+    .btn-order {
+        background: #ffab2c;
+        padding: 10px 20px;
+        display: inline-block;
+        border-radius: 4px;
+        box-shadow: 0 0 10px #0000003b;
+        color: #fff;
+        text-decoration: none;
+        margin: 10px;
+    }
+    a:hover {
+        color: #000;
+    }    
+
+
 /* Form error */
 .error {
     color: #f00;

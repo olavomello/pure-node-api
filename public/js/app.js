@@ -68,27 +68,29 @@ app.client.request = (path, method, queryStringObject, payload, callback) => {
  */
 app.loadMenuData = (bodyId) => {
   console.log("Loading menu itens...");
-  let elMenuDiv = document.getElementById('items');
+
+  let elMenuDiv = document.getElementById('viewPizzas');
+  if( !elMenuDiv ) return;
 
   app.client.request('/api/menu', 'GET', undefined, undefined, (statusCode, responsePayload) => {
     if(statusCode == 200 && responsePayload instanceof Array && responsePayload.length > 0) {
       let count = 0;
 
-      for(const { id, name, description, vegetarian, image } of responsePayload) {
+      for(const { id, name, description, image } of responsePayload) {
          let elItemSection = `<section class="item" data-item-id="item${id}">
-                              <div class="featured-img">
-                                <img src="public/images/${image}" alt="${name}" class="">
-                                <img class="type-icon" src="public/images/${(vegetarian)? 'veg-icon' : 'non-veg-icon'}.jpg" alt="${(vegetarian)? 'veg' : 'non-veg'}">
-                              </div>
-                              <h3>${name}</h3>
-                              <p>${description.substr(0, description.indexOf('.'))}.</p>
-                              <div class="item-order">
-                                <a href="menu/item?id=${id}&name=${name}" class="btn btn-order" id="btnOrder${id}">Order Now</a>
-                              </div>
+                                <div class="featured-img">
+                                  <a href="/item/${id}">
+                                    <img src="${image}" alt="${name}" title="${name}">
+                                  </a>
+                                </div>
+                                <h3>${name}</h3>
+                                <div class="item-order">
+                                  <a href="/item/${id}" class="btn btn-order" id="btnOrder${id}">Order Now</a>
+                                </div>
                               </section>`;
 
           count++;
-          elMenuDiv.insertAdjacentHTML('afterbegin', elItemSection);
+          elMenuDiv.innerHTML += elItemSection;
 
           // Load index page items.
           if(bodyId == 'index' && count == 3) break;
@@ -101,16 +103,18 @@ app.loadMenuData = (bodyId) => {
 };
 
 /**
- * Load item data on item page.
+ * Load product data on item page.
  */
 app.loadItemData = () => {
+  console.log("Loading product data ...");
   let elItemDiv = document.getElementById('itemInfo');
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get('id');
-  const queryStringObject = { 'id': id };
+  const pathname = new URL(window.location.href).pathname;
+  const urlParse =  pathname.split("/");
+  const id = urlParse[2];
+  const parms = { id };
 
-  app.client.request('/api/items', 'GET', queryStringObject, undefined, (statusCode, response) => {
+  app.client.request('/api/product', 'GET', undefined, parms, (statusCode, response) => {
       if(statusCode == 200) {
           const { id, name, description, vegetarian, image, prices } = response;
 
@@ -324,14 +328,13 @@ app.loadDataOnPage = () => {
   const bodyId = document.getElementsByTagName('body')[0].id;
 
   switch(bodyId) {
-    case 'accountSettings':
-      app.loadAccountData(bodyId);
-      break;
-    case 'index':
-    case 'menu':
+    case 'page-index':
       app.loadMenuData(bodyId);
       break;
-    case 'item':
+    case 'accountSettings':
+      app.loadAccountData(bodyId);
+      break;      
+    case 'page-item':
       app.loadItemData();
       break;
     case 'cart':
@@ -725,6 +728,7 @@ app.validateForm = (elements) => {
  * @param {responsePayload} object - response data
  */
 app.formResponseProcessor = (formId, requestPayload, responsePayload) => {
+  console.log("formResponseProcessor", formId, requestPayload, responsePayload );
   switch(formId) {
     case 'frmSignup':
         var { email, password } = requestPayload;
@@ -823,20 +827,6 @@ app.formErrorResponse = (statusCode, responsePayload) => {
 };
 
 /**
- *  Select pan size to display pan price on item page.
- */
-app.selectPriceByPanType = () => {
-  if (document.getElementsByTagName('body')[0].id == 'item') {
-        document.getElementById('itemInfo').addEventListener('change', (e) => {
-          if(e.target.id == 'selectPanType')  {
-            const price = (e.target.options[e.target.selectedIndex]).dataset.price;
-            document.querySelector('.price').innerText = `$ ${price}`;
-          }
-        });
-  }
-}
-
-/**
  * Log the user out then redirect to menu.
  */
 app.logUserOut = () => {
@@ -871,7 +861,6 @@ app.getSessionToken = () => {
 
   if( typeof(_TOKEN) == 'string' && _TOKEN && _TOKEN != 'false' ) {
       const token = JSON.parse(_TOKEN);
-      console.log("Token obj", token);
       app.config.sessionToken = token;
 
       try {
@@ -923,7 +912,6 @@ app.setLoggedInClass = (isLoggedIn) => {
 app.setSessionToken = (token) => {
  
   if( token && token != "false" ){
-    console.log("Token on !");
     // Token on
     app.config.sessionToken = token;
     _TOKEN = JSON.stringify(token);
@@ -1020,9 +1008,6 @@ app.init = () => {
 
   // Remove items.
   app.bindRemoveItemsEvent();
-
-  // Set pan price.
-  app.selectPriceByPanType();
 
   // load user data to display.
   app.loadUser();

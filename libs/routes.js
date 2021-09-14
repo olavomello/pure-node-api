@@ -27,7 +27,9 @@ routers.user_delete         =     (req, res, arrPath) => userController.delete(r
 // User login
 routers.login               =     (req, res, arrPath) => userController.login(req, res, arrPath);
 // Product list
-routers.menu                =     (req, res, arrPath) => productController.controller.menu(req, res, arrPath);
+routers.menu                =     (req, res, arrPath) => productController.menu(req, res, arrPath);
+// Product view / item
+routers.product             =     (req, res, arrPath) => productController.product(req, res, arrPath);
 // Shopcart view
 routers.shopcart_view       =     (req, res, arrPath) => shopcartController.view(req, res, arrPath);
 // Shopcart add
@@ -40,7 +42,7 @@ routers.shopcart_delete     =     (req, res, arrPath) => shopcartController.dele
 routers.order_view          =     (req, res, arrPath) => orderController.view(req, res, arrPath);
 // Order add
 routers.order_add           =     (req, res, arrPath) => orderController.add(req, res, arrPath);
-// Paymento
+// Payment
 routers.payment             =     (req, res, arrPath) => paymentController.pay(req, res, arrPath);
 
 // Export the module

@@ -450,13 +450,17 @@ helpers.getTemplate = function( page ){
 // get HTML Page ( formed with template )
 helpers.getPage = function( page ){
     // User file found
-    const HEADER  = helpers.getTemplate("_header");
+    let HEADER  = helpers.getTemplate("_header").toString();
     // Add default header
-    const FOOTER  = helpers.getTemplate("_footer");
+    let FOOTER  = helpers.getTemplate("_footer").toString();
     // Page content
-    const CONTENT = helpers.getTemplate(page);
+    let CONTENT = helpers.getTemplate(page).toString();
+
     // Check files
     if( HEADER && FOOTER && CONTENT ){
+        // Replace Body ID
+        HEADER = HEADER.replace("{body.id}","page-"+page);
+
         // Add page final content
         return ( HEADER + CONTENT + FOOTER);
     } else {

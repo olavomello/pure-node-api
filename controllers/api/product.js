@@ -2,57 +2,53 @@
   Products Controller
 */
 
-var { 
-    controllerMethods,
-    fileRead,
-    tokenUpdate
-} = require('../../libs/helpers');
+var {
+  fileRead,
+  controllerMethods
+} = require("../../libs/helpers");
 
 // Container for produts / menu
-const controller = {}
+//const controller = {}
 
 // Constants
-const _PRODUCTS = [
-    {
-        id      : 1,
-        name    : "Coke",
-        price   : 1.00
-    },
-    {
-        id      : 2,
-        name    : "Beer",
-        price   : 2.00
-    },
-    {
-        id      : 3,
-        name    : "Ice Cream",
-        price   : 3.00
-    },
-    {
-        id      : 4,
-        name    : "Cheese Burguer",
-        price   : 4.00
-    },
-    {
-        id      : 5,
-        name    : "Pizza",
-        price   : 5.00
-    }                                         
-];
+const _PRODUCTS = fileRead("data","products");
 
 // Menu
-controller.menu = async ( req, res, arrPath ) => {
-    //
-    if(  controllerMethods( req, res, ["GET"] ) ){
-      // Execute payload return
-      res.end( JSON.stringify(_PRODUCTS));
-    }
-  };
+menu = async (req, res, arrPath) => {
+  //
+  if (controllerMethods(req, res, ["GET"])) {
+    // Execute payload return
+    res.end(JSON.stringify(_PRODUCTS));
+  }
+};
 
 // Return product list
-controller.list = function( req, res, arrPath ){
-    return JSON.stringify(_PRODUCTS);
-}
+list = function (req, res, arrPath) {
+  return JSON.stringify(_PRODUCTS);
+};
+
+// Return product view / item
+product = function (req, res, arrPath) {
+  req.on( 'data', function(body) {
+    if( body ){
+      // Body parse
+      body = JSON.parse( body );
+
+      // Id
+      let { id } = body;
+      if( id ){
+        // Find product
+        const item = _PRODUCTS.filter( (product) => product.id == id );
+        // Return
+        return res.writeHead(200).end( JSON.stringify( item ) );
+      } else {
+        return res.writeHead(404).end( JSON.stringify( { error   : true, message : "Parameter ID required." } ) );
+      }
+    } else {
+      return res.writeHead(404).end( JSON.stringify( { error   : true, message : "Parameter ID required." } ) );
+    }
+  });
+};
 
 // Export module
-module.exports = { PRODUCTS : _PRODUCTS, controller };
+module.exports = { PRODUCTS: _PRODUCTS, menu, list, product };
